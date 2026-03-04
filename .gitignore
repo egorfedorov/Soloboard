@@ -2,3 +2,4 @@ node_modules/
 dist/
 .kanban/sessions/
 *.tmp
+.DS_Store

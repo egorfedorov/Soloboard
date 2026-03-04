@@ -8,11 +8,12 @@ import { registerBoardTools } from "./tools/board-tools.js";
 import { registerSessionTools } from "./tools/session-tools.js";
 import { registerGitTools } from "./tools/git-tools.js";
 import { registerInitTools } from "./tools/init-tools.js";
+import { registerExportTools } from "./tools/export-tools.js";
 
 export function createSoloboardServer(projectRoot: string): McpServer {
   const server = new McpServer({
     name: "soloboard",
-    version: "1.0.0",
+    version: "1.1.0",
   });
 
   const store = new Store(projectRoot);
@@ -20,12 +21,12 @@ export function createSoloboardServer(projectRoot: string): McpServer {
   const boardStore = new BoardStore(store);
   const sessionStore = new SessionStore(store);
 
-  // Register all tools (14 original + 2 init)
   registerTaskTools(server, store, taskStore, boardStore, sessionStore);
   registerBoardTools(server, store, taskStore, boardStore);
   registerSessionTools(server, store, sessionStore, taskStore);
   registerGitTools(server, store, taskStore, boardStore, projectRoot);
   registerInitTools(server, store, boardStore, sessionStore, projectRoot);
+  registerExportTools(server, store, taskStore, boardStore);
 
   return server;
 }

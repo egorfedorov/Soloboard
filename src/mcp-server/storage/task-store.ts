@@ -24,14 +24,36 @@ export class TaskStore {
     const task = await this.get(taskId);
     if (!task) return null;
 
+    const now = new Date().toISOString();
     const updated: Task = {
       ...task,
       ...updates,
-      updatedAt: new Date().toISOString(),
+      updatedAt: now,
     };
 
-    if (updates.status === "done" && task.status !== "done") {
-      updated.completedAt = new Date().toISOString();
+    // Ensure timeLog exists for older tasks
+    if (!updated.timeLog) updated.timeLog = [];
+    if (updated.totalSeconds === undefined) updated.totalSeconds = 0;
+
+    // Time tracking: handle status transitions
+    if (updates.status && updates.status !== task.status) {
+      // Leaving "doing" — close open time entry
+      if (task.status === "doing") {
+        const open = updated.timeLog.find((e) => e.end === null);
+        if (open) {
+          open.end = now;
+          const ms = new Date(now).getTime() - new Date(open.start).getTime();
+          updated.totalSeconds += Math.max(0, Math.round(ms / 1000));
+        }
+      }
+      // Entering "doing" — start new time entry
+      if (updates.status === "doing") {
+        updated.timeLog.push({ start: now, end: null });
+      }
+      // Mark completed
+      if (updates.status === "done") {
+        updated.completedAt = now;
+      }
     }
 
     await this.store.writeJson(this.store.taskPath(taskId), updated);

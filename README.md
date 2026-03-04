@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-plugin-7c6aef?style=flat-square" alt="Claude Code Plugin">
   <img src="https://img.shields.io/badge/MCP-server-a78bfa?style=flat-square" alt="MCP Server">
-  <img src="https://img.shields.io/badge/tools-16-34d399?style=flat-square" alt="16 Tools">
+  <img src="https://img.shields.io/badge/tools-20-34d399?style=flat-square" alt="20 Tools">
   <img src="https://img.shields.io/badge/license-MIT-60a5fa?style=flat-square" alt="MIT">
 </p>
 
@@ -42,19 +42,20 @@ you > /soloboard:board
 
 ## Install
 
+### Option A: npm global (recommended)
 ```bash
-# 1. Clone & build
-git clone https://github.com/egorfedorov/Soloboard.git
-cd Soloboard && npm install && npm run build
-
-# 2. Install into your project
-bash install.sh /path/to/your/project
-
-# 3. Start working
-cd /path/to/your/project && claude
+npm install -g soloboard
+soloboard install            # in your project directory
 ```
 
-One command installs everything: MCP server config, hooks, agent instructions, and `.kanban/` directory.
+### Option B: Clone & build
+```bash
+git clone https://github.com/egorfedorov/Soloboard.git
+cd Soloboard && npm install && npm run build
+bash install.sh /path/to/your/project
+```
+
+Then just `cd your-project && claude` — the board manages itself.
 
 ## How it works
 
@@ -85,6 +86,11 @@ One command installs everything: MCP server config, hooks, agent instructions, a
 - **File-per-task storage** — each task is a JSON file in `.kanban/tasks/`, git-friendly
 - **Safe** — only touches `.kanban/` in your project, no network, no dangerous ops
 - **3 statuses** — TODO, DOING, DONE. That's it.
+- **Time tracking** — automatic: tracks time in DOING, shows per-task and total
+- **Priority sorting** — high tasks float to top of each column automatically
+- **Markdown export** — export the board as markdown for reports or sharing
+- **Multi-project dashboard** — see all projects at a glance with `dashboard`
+- **Global CLI** — `npm install -g soloboard && soloboard install`
 
 ## Architecture
 
@@ -92,13 +98,14 @@ One command installs everything: MCP server config, hooks, agent instructions, a
 soloboard/
 ├── src/mcp-server/
 │   ├── index.ts              # Entry point (stdio transport)
-│   ├── server.ts             # MCP server + 16 tools
+│   ├── server.ts             # MCP server + 20 tools
 │   ├── tools/
 │   │   ├── task-tools.ts     # create/update/get/list/move/delete
 │   │   ├── board-tools.ts    # view/project-create/list/switch
 │   │   ├── session-tools.ts  # log/summary
 │   │   ├── git-tools.ts      # link/status
-│   │   └── init-tools.ts     # auto_init/board_summary
+│   │   ├── init-tools.ts     # auto_init/board_summary
+│   │   └── export-tools.ts   # export/dashboard/prioritize/time
 │   ├── storage/              # Atomic writes, file-per-task
 │   ├── models/               # Task, Board, Session, Config
 │   └── utils/                # nanoid, git helpers
@@ -119,7 +126,7 @@ soloboard/
 └── sessions/{id}.json        # Session logs (gitignored)
 ```
 
-## MCP Tools (16)
+## MCP Tools (20)
 
 | Tool | Purpose |
 |------|---------|
@@ -131,7 +138,11 @@ soloboard/
 | `task_list` | List tasks, filter by status |
 | `task_move` | Move between TODO/DOING/DONE |
 | `task_delete` | Archive or delete task |
-| `board_view` | Full kanban board view |
+| `task_prioritize` | Change priority + auto-sort column |
+| `task_time` | Time tracking report per task or all |
+| `board_view` | Full kanban board (sorted by priority) |
+| `board_export` | Export board as markdown |
+| `dashboard` | Multi-project overview with time totals |
 | `project_create` | Create project board |
 | `project_list` | List all projects |
 | `project_switch` | Switch active project |

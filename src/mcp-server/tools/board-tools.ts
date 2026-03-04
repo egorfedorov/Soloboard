@@ -3,6 +3,7 @@ import { z } from "zod";
 import { TaskStore } from "../storage/task-store.js";
 import { BoardStore } from "../storage/board-store.js";
 import { Store } from "../storage/store.js";
+import { Task, comparePriority, formatDuration } from "../models/task.js";
 
 export function registerBoardTools(
   server: McpServer,
@@ -36,13 +37,24 @@ export function registerBoardTools(
         if (ids.length === 0) {
           lines.push("  (empty)");
         } else {
+          // Load and sort by priority
+          const tasks: Task[] = [];
           for (const id of ids) {
             const task = await taskStore.get(id);
-            if (task) {
-              const prio = task.priority === "high" ? "!!!" : task.priority === "medium" ? "!!" : "!";
-              const tags = task.tags.length > 0 ? ` [${task.tags.join(", ")}]` : "";
-              lines.push(`  - [${prio}] ${task.title} (${task.id})${tags}`);
-            }
+            if (task) tasks.push(task);
+          }
+          tasks.sort(comparePriority);
+
+          for (const task of tasks) {
+            const prio = task.priority === "high" ? "!!!" : task.priority === "medium" ? "!!" : "!";
+            const tags = task.tags.length > 0 ? ` [${task.tags.join(", ")}]` : "";
+            // Show time if tracked
+            let timeStr = "";
+            let secs = task.totalSeconds || 0;
+            const openEntry = (task.timeLog || []).find((e) => e.end === null);
+            if (openEntry) secs += Math.round((Date.now() - new Date(openEntry.start).getTime()) / 1000);
+            if (secs > 0) timeStr = ` ${formatDuration(secs)}`;
+            lines.push(`  - [${prio}] ${task.title} (${task.id})${tags}${timeStr}`);
           }
         }
         lines.push("");
