@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoloBoard — Invisible Task Tracker for Claude Code</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #12121a;
+    --bg3: #1a1a26;
+    --surface: #1e1e2e;
+    --border: #2a2a3d;
+    --text: #e4e4ef;
+    --text2: #8888a4;
+    --accent: #7c6aef;
+    --accent2: #a78bfa;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --blue: #60a5fa;
+    --glow: rgba(124, 106, 239, 0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1rem 2rem;
+    background: rgba(10, 10, 15, 0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--accent2);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-logo img { height: 28px; width: auto; }
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 30%, var(--glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 40px rgba(96, 165, 250, 0.3));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-bottom: 2rem;
+  }
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    color: var(--text2);
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 0 30px rgba(124, 106, 239, 0.3);
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(124, 106, 239, 0.4);
+  }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  /* ═══ TERMINAL DEMO ═══ */
+  .terminal-section {
+    padding: 2rem 2rem 6rem;
+    display: flex;
+    justify-content: center;
+  }
+  .terminal {
+    width: 100%;
+    max-width: 800px;
+    background: var(--bg2);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+  }
+  .terminal-header {
+    padding: 0.8rem 1rem;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .terminal-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .terminal-dot.r { background: #ff5f57; }
+  .terminal-dot.y { background: #febc2e; }
+  .terminal-dot.g { background: #28c840; }
+  .terminal-title {
+    margin-left: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text2);
+  }
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    min-height: 320px;
+  }
+  .t-prompt { color: var(--green); }
+  .t-cmd { color: var(--text); }
+  .t-comment { color: var(--text2); font-style: italic; }
+  .t-output { color: var(--text2); }
+  .t-accent { color: var(--accent2); }
+  .t-yellow { color: var(--yellow); }
+  .t-green { color: var(--green); }
+  .t-red { color: var(--red); }
+  .t-blue { color: var(--blue); }
+  .t-line { display: block; min-height: 1.8em; }
+  .t-line.hidden { opacity: 0; }
+
+  /* ═══ SECTIONS ═══ */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+  section h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  section h2 .highlight {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-sub {
+    color: var(--text2);
+    font-size: 1.1rem;
+    max-width: 650px;
+    margin-bottom: 3rem;
+  }
+
+  /* ═══ PROBLEM/SOLUTION ═══ */
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 768px) {
+    .comparison { grid-template-columns: 1fr; }
+  }
+  .compare-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+  }
+  .compare-card.bad { border-color: rgba(248, 113, 113, 0.2); }
+  .compare-card.good { border-color: rgba(52, 211, 153, 0.2); }
+  .compare-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .compare-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .compare-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    color: var(--text2);
+  }
+  .compare-card li .icon { flex-shrink: 0; font-size: 1.1rem; }
+
+  /* ═══ HOW IT WORKS ═══ */
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .flow-step:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 40px rgba(124, 106, 239, 0.1);
+  }
+  .flow-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bg3);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .flow-step:hover .flow-num { color: var(--accent); }
+  .flow-step h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .flow-step p {
+    font-size: 0.9rem;
+    color: var(--text2);
+  }
+
+  /* ═══ FEATURES GRID ═══ */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s;
+  }
+  .feature-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 10px 40px rgba(124, 106, 239, 0.08);
+  }
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .feature-card p {
+    font-size: 0.9rem;
+    color: var(--text2);
+  }
+
+  /* ═══ BOARD PREVIEW ═══ */
+  .board-preview {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 2rem;
+    overflow-x: auto;
+  }
+  .board-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    min-width: 600px;
+  }
+  .board-col {
+    background: var(--bg3);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .col-header {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .col-todo .col-header { background: rgba(96, 165, 250, 0.1); color: var(--blue); }
+  .col-doing .col-header { background: rgba(251, 191, 36, 0.1); color: var(--yellow); }
+  .col-done .col-header { background: rgba(52, 211, 153, 0.1); color: var(--green); }
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .task-card:hover {
+    border-color: var(--accent);
+    transform: translateX(2px);
+  }
+  .task-title { font-weight: 600; margin-bottom: 0.3rem; }
+  .task-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(124, 106, 239, 0.1);
+    color: var(--accent2);
+  }
+  .prio {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+  }
+  .prio-high { background: rgba(248,113,113,0.1); color: var(--red); }
+  .prio-med { background: rgba(251,191,36,0.1); color: var(--yellow); }
+  .prio-low { background: rgba(52,211,153,0.1); color: var(--green); }
+  .task-git {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text2);
+    margin-top: 0.4rem;
+  }
+
+  /* ═══ INSTALL ═══ */
+  .install-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+  .install-step {
+    margin-bottom: 2rem;
+  }
+  .install-step:last-child { margin-bottom: 0; }
+  .install-step h3 {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .step-num {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .code-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--green);
+    overflow-x: auto;
+    position: relative;
+  }
+  .code-block .comment { color: var(--text2); }
+  .copy-btn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: var(--surface); color: var(--text); }
+
+  /* ═══ ARCHITECTURE ═══ */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .arch-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+  .arch-card h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: var(--accent2);
+  }
+  .arch-card pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* ═══ TOOLS TABLE ═══ */
+  .tools-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+  }
+  .tools-table th {
+    text-align: left;
+    padding: 0.8rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  .tools-table td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .tools-table td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2);
+    font-size: 0.85rem;
+  }
+  .tools-table tr:hover td { background: var(--bg3); }
+  .tools-group {
+    font-weight: 700;
+    color: var(--text) !important;
+    font-family: 'Inter', sans-serif !important;
+    padding-top: 1.5rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    padding: 4rem 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--accent2); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+  .footer-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-top: 0.5rem;
+  }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 768px) {
+    nav { padding: 0.8rem 1rem; }
+    .nav-links { display: none; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .board-cols { grid-template-columns: 1fr; min-width: auto; }
+    .flow-steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="logo.svg" alt="SoloBoard">solo<span>board</span></a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#board">Board</a>
+    <a href="#install">Install</a>
+    <a href="#tools">Tools</a>
+    <a href="https://github.com/egorfedorov/Soloboard" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="logo.svg" alt="SoloBoard" class="hero-logo">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    Claude Code Plugin &middot; MCP Server
+  </div>
+  <h1>
+    You code.<br>
+    <span class="highlight">Board tracks.</span>
+  </h1>
+  <p class="hero-sub">
+    Invisible personal kanban for Claude Code. No setup commands, no context switching. Just work — SoloBoard silently tracks tasks, links commits, and stays out of your way.
+  </p>
+  <div class="hero-actions">
+    <a href="#install" class="btn btn-primary">Install in 10 seconds</a>
+    <a href="#how" class="btn btn-secondary">See how it works</a>
+  </div>
+</div>
+
+<!-- TERMINAL DEMO -->
+<div class="terminal-section">
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-dot r"></div>
+      <div class="terminal-dot y"></div>
+      <div class="terminal-dot g"></div>
+      <span class="terminal-title">claude — my-project</span>
+    </div>
+    <div class="terminal-body" id="demo">
+      <span class="t-line"><span class="t-prompt">you &gt;</span> <span class="t-cmd">fix the login bug on mobile</span></span>
+      <span class="t-line"><span class="t-comment">                              ← task silently created in DOING</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-accent">claude &gt;</span> <span class="t-output">Found the issue in auth.ts:47 — the token refresh</span></span>
+      <span class="t-line"><span class="t-output">         wasn't handling mobile Safari's storage...</span></span>
+      <span class="t-line"><span class="t-comment">                              ← files auto-tracked to task</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-prompt">you &gt;</span> <span class="t-cmd">commit this</span></span>
+      <span class="t-line"><span class="t-comment">                              ← commit SHA auto-linked to task</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-prompt">you &gt;</span> <span class="t-cmd">/soloboard:board</span></span>
+      <span class="t-line">&nbsp;</span>
+      <span class="t-line"><span class="t-blue">TODO (0)</span>  <span class="t-yellow">DOING (1)</span>          <span class="t-green">DONE (3)</span></span>
+      <span class="t-line"><span class="t-output">          → Fix login bug</span>    <span class="t-output">✓ Setup auth</span></span>
+      <span class="t-line"><span class="t-output">            on mobile</span>        <span class="t-output">✓ Add dark mode</span></span>
+      <span class="t-line"><span class="t-output">            </span><span class="t-text2">abc1234</span>         <span class="t-output">✓ Refactor API</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM / SOLUTION -->
+<section id="why">
+  <div class="section-label">The problem</div>
+  <h2>Task trackers add <span class="highlight">overhead</span></h2>
+  <p class="section-sub">
+    Every kanban board, every Jira ticket, every TODO app — they all demand your attention. SoloBoard is different.
+  </p>
+
+  <div class="comparison">
+    <div class="compare-card bad">
+      <h3><span style="color:var(--red)">&#x2717;</span> Traditional trackers</h3>
+      <ul>
+        <li><span class="icon">&#128531;</span> "Let me create a ticket first..."</li>
+        <li><span class="icon">&#128531;</span> Context switching kills flow</li>
+        <li><span class="icon">&#128531;</span> Forget to update status</li>
+        <li><span class="icon">&#128531;</span> Commits disconnected from tasks</li>
+        <li><span class="icon">&#128531;</span> Setup ceremony for every project</li>
+        <li><span class="icon">&#128531;</span> Overkill for solo developers</li>
+      </ul>
+    </div>
+    <div class="compare-card good">
+      <h3><span style="color:var(--green)">&#x2713;</span> SoloBoard</h3>
+      <ul>
+        <li><span class="icon">&#9889;</span> Zero-friction: just start coding</li>
+        <li><span class="icon">&#9889;</span> Board is invisible until you ask</li>
+        <li><span class="icon">&#9889;</span> Status updates automatically</li>
+        <li><span class="icon">&#9889;</span> Commits auto-linked to tasks</li>
+        <li><span class="icon">&#9889;</span> One command to install</li>
+        <li><span class="icon">&#9889;</span> Built for solo + Claude Code</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">How it works</div>
+  <h2>Invisible by <span class="highlight">design</span></h2>
+  <p class="section-sub">
+    SoloBoard hooks into Claude Code's MCP protocol. It reads your intent from prompts, tracks file changes via hooks, and links git commits — all silently.
+  </p>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <h3>You write a prompt</h3>
+      <p>"fix the login bug" — Claude understands it's an actionable task and silently creates it on the board in DOING.</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <h3>Files get tracked</h3>
+      <p>Every file Claude writes or edits is automatically linked to the active task. No manual bookkeeping.</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <h3>Commits link up</h3>
+      <p>When you commit, the SHA is auto-linked to whatever task is in DOING. Branch names and PRs too.</p>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <h3>Check anytime</h3>
+      <p>Type <code>/soloboard:board</code> to see your kanban. Or don't — it's there when you need it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">Features</div>
+  <h2>Everything you need, <span class="highlight">nothing you don't</span></h2>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">&#127919;</span>
+      <h3>Auto-tracking</h3>
+      <p>Actionable prompts become tasks. Questions don't. The AI understands the difference.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128268;</span>
+      <h3>Git integration</h3>
+      <p>Commits, branches, and PRs automatically link to tasks. Every task knows its git history.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128269;</span>
+      <h3>Fuzzy search</h3>
+      <p>Say "move login bug to done" — SoloBoard finds "Fix login authentication bug" by fuzzy match.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128230;</span>
+      <h3>File-per-task storage</h3>
+      <p>Each task is a JSON file. No database, no in-memory state, no corruption. Git-friendly.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#9889;</span>
+      <h3>Zero config</h3>
+      <p>One install command. Board auto-initializes on first prompt. No setup ceremony.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128274;</span>
+      <h3>Safe permissions</h3>
+      <p>Only touches your project's .kanban/ directory. No network, no dangerous ops. Just files.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOARD PREVIEW -->
+<section id="board">
+  <div class="section-label">Live preview</div>
+  <h2>Your board, <span class="highlight">your way</span></h2>
+  <p class="section-sub">
+    Three columns. That's it. TODO, DOING, DONE. Each task tracks priority, tags, files, commits, and branch.
+  </p>
+
+  <div class="board-preview">
+    <div class="board-cols">
+      <div class="board-col col-todo">
+        <div class="col-header">
+          <span>TODO</span>
+          <span>2</span>
+        </div>
+        <div class="task-card">
+          <div class="task-title">Write unit tests</div>
+          <div class="task-meta">
+            <span class="prio prio-low">low</span>
+            <span class="tag">testing</span>
+          </div>
+        </div>
+        <div class="task-card">
+          <div class="task-title">Update API docs</div>
+          <div class="task-meta">
+            <span class="prio prio-low">low</span>
+            <span class="tag">docs</span>
+          </div>
+        </div>
+      </div>
+      <div class="board-col col-doing">
+        <div class="col-header">
+          <span>DOING</span>
+          <span>1</span>
+        </div>
+        <div class="task-card">
+          <div class="task-title">Fix login bug on mobile</div>
+          <div class="task-meta">
+            <span class="prio prio-high">high</span>
+            <span class="tag">auth</span>
+            <span class="tag">bugfix</span>
+          </div>
+          <div class="task-git">&#9741; feature/fix-login &middot; abc1234</div>
+        </div>
+      </div>
+      <div class="board-col col-done">
+        <div class="col-header">
+          <span>DONE</span>
+          <span>3</span>
+        </div>
+        <div class="task-card" style="opacity:0.6">
+          <div class="task-title" style="text-decoration:line-through">Setup auth system</div>
+          <div class="task-meta"><span class="prio prio-high">high</span></div>
+        </div>
+        <div class="task-card" style="opacity:0.6">
+          <div class="task-title" style="text-decoration:line-through">Add dark mode</div>
+          <div class="task-meta"><span class="prio prio-med">medium</span><span class="tag">ui</span></div>
+        </div>
+        <div class="task-card" style="opacity:0.6">
+          <div class="task-title" style="text-decoration:line-through">Refactor API layer</div>
+          <div class="task-meta"><span class="prio prio-med">medium</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="section-label">Get started</div>
+  <h2>Install in <span class="highlight">10 seconds</span></h2>
+
+  <div class="install-block">
+    <div class="install-step">
+      <h3><span class="step-num">1</span> Clone SoloBoard</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        git clone https://github.com/egorfedorov/Soloboard.git<br>
+        <span class="comment"># or download & unpack anywhere</span>
+      </div>
+    </div>
+
+    <div class="install-step">
+      <h3><span class="step-num">2</span> Build once</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        cd soloboard && npm install && npm run build
+      </div>
+    </div>
+
+    <div class="install-step">
+      <h3><span class="step-num">3</span> Install into any project</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        bash /path/to/soloboard/install.sh /path/to/your/project
+      </div>
+    </div>
+
+    <div class="install-step">
+      <h3><span class="step-num">4</span> Start working</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        cd your-project && claude<br>
+        <span class="comment"># That's it. Board is automatic.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT INSTALL DOES -->
+<section>
+  <div class="section-label">Under the hood</div>
+  <h2>What <span class="highlight">install.sh</span> does</h2>
+  <p class="section-sub">One script, five things. All reversible.</p>
+
+  <div class="arch-grid">
+    <div class="arch-card">
+      <h3>.mcp.json</h3>
+      <pre>Adds SoloBoard MCP server
+so Claude Code can call
+the 16 board tools.</pre>
+    </div>
+    <div class="arch-card">
+      <h3>CLAUDE.md</h3>
+      <pre>Injects agent instructions:
+auto-track tasks, stay silent,
+respond to /soloboard:*</pre>
+    </div>
+    <div class="arch-card">
+      <h3>.claude/settings.json</h3>
+      <pre>Hooks for:
+- File change tracking
+- Git commit linking
+- Session management</pre>
+    </div>
+    <div class="arch-card">
+      <h3>.kanban/</h3>
+      <pre>boards/   → project boards
+tasks/    → one file per task
+sessions/ → ephemeral logs
+config.json → active project</pre>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label">MCP tools</div>
+  <h2><span class="highlight">16</span> tools, zero noise</h2>
+  <p class="section-sub">
+    All tools are called by Claude automatically. You never need to call them yourself.
+  </p>
+
+  <table class="tools-table">
+    <thead>
+      <tr>
+        <th>Tool</th>
+        <th>What it does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="tools-group" colspan="2">Initialization</td></tr>
+      <tr><td>auto_init</td><td>Creates .kanban, project, and session in one call. Idempotent.</td></tr>
+      <tr><td>board_summary</td><td>One-line status: "TODO: 3 | DOING: 1 | DONE: 5"</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Tasks</td></tr>
+      <tr><td>task_create</td><td>Create task with title, priority, tags, and initial status</td></tr>
+      <tr><td>task_update</td><td>Update any task field (description, priority, tags, branch, PR)</td></tr>
+      <tr><td>task_get</td><td>Get full task details by ID or fuzzy name match</td></tr>
+      <tr><td>task_list</td><td>List all tasks, optionally filtered by status</td></tr>
+      <tr><td>task_move</td><td>Move task between TODO / DOING / DONE</td></tr>
+      <tr><td>task_delete</td><td>Archive or permanently delete a task</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Board</td></tr>
+      <tr><td>board_view</td><td>Full kanban board with priorities, tags, and task IDs</td></tr>
+      <tr><td>project_create</td><td>Create a new project board</td></tr>
+      <tr><td>project_list</td><td>List all projects with task counts</td></tr>
+      <tr><td>project_switch</td><td>Switch active project by name or ID</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Session & Git</td></tr>
+      <tr><td>session_log</td><td>Log file changes and commits to current session</td></tr>
+      <tr><td>session_summary</td><td>Summary: tasks created, completed, commits, files</td></tr>
+      <tr><td>git_link</td><td>Link commit SHA, branch, or PR URL to a task</td></tr>
+      <tr><td>git_status</td><td>Git branch, status, and recent commits</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SLASH COMMANDS -->
+<section>
+  <div class="section-label">Commands</div>
+  <h2>Three <span class="highlight">slash commands</span></h2>
+  <p class="section-sub">
+    Everything else is automatic. These are for when <em>you</em> want to see or control the board.
+  </p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--accent2)">/soloboard:board</span>
+      <h3>View the board</h3>
+      <p>See all tasks organized in TODO, DOING, and DONE columns with priorities and tags.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--accent2)">/soloboard:task</span>
+      <h3>Manage tasks</h3>
+      <p>Show active task, mark as done, create new tasks, or get task details by name.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--accent2)">/soloboard:project</span>
+      <h3>Manage projects</h3>
+      <p>Create projects, list all boards, or switch between projects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.svg" alt="SoloBoard" style="width:64px;height:auto;margin-bottom:1rem;opacity:0.8">
+  <div class="nav-logo" style="font-size:1.5rem;margin-bottom:0.5rem;display:inline-flex;justify-content:center">solo<span>board</span></div>
+  <p class="footer-tagline">You code. Board tracks. That's it.</p>
+  <p style="margin-top:1.5rem">
+    <a href="https://github.com/egorfedorov/Soloboard" target="_blank">GitHub</a> &middot;
+    Built for <a href="https://claude.ai/code" target="_blank">Claude Code</a> &middot;
+    Powered by <a href="https://modelcontextprotocol.io" target="_blank">MCP</a> &middot;
+    MIT License
+  </p>
+</footer>
+
+<script>
+function copyCode(btn) {
+  const block = btn.parentElement;
+  const text = block.innerText.replace('copy', '').trim();
+  navigator.clipboard.writeText(text.split('\n')[0]);
+  btn.textContent = 'copied!';
+  setTimeout(() => btn.textContent = 'copy', 1500);
+}
+
+// Animate terminal lines on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const lines = entry.target.querySelectorAll('.t-line');
+      lines.forEach((line, i) => {
+        line.style.opacity = '0';
+        line.style.transform = 'translateY(8px)';
+        line.style.transition = `opacity 0.4s ${i * 0.12}s, transform 0.4s ${i * 0.12}s`;
+        requestAnimationFrame(() => {
+          line.style.opacity = '1';
+          line.style.transform = 'translateY(0)';
+        });
+      });
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+observer.observe(document.getElementById('demo'));
+
+// Smooth reveal for cards
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.flow-step, .feature-card, .compare-card, .arch-card').forEach(card => {
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(20px)';
+  card.style.transition = 'opacity 0.5s, transform 0.5s';
+  cardObserver.observe(card);
+});
+</script>
+
+</body>
+</html>

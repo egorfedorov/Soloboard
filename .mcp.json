@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "soloboard": {
+      "command": "node",
+      "args": ["dist/mcp-server/index.js"],
+      "cwd": ".",
+      "env": {
+        "SOLOBOARD_PROJECT_ROOT": "${workspaceFolder}"
+      },
+      "description": "SoloBoard personal task tracker"
+    }
+  }
+}

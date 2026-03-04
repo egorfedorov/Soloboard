@@ -1,0 +1,31 @@
+{
+  "hooks": [
+    {
+      "event": "on_session_start",
+      "command": "PROJECT_ROOT=\"$PWD\" bash \"$(dirname \"$0\")/../scripts/session-start.sh\"",
+      "description": "Inject board context at session start"
+    },
+    {
+      "event": "post_tool_use",
+      "matcher": {
+        "tool_name": ["Write", "Edit"]
+      },
+      "command": "PROJECT_ROOT=\"$PWD\" CLAUDE_FILE_PATH=\"$CLAUDE_TOOL_ARG_FILE_PATH\" bash \"$(dirname \"$0\")/../scripts/post-write.sh\"",
+      "description": "Track file changes to active task"
+    },
+    {
+      "event": "post_tool_use",
+      "matcher": {
+        "tool_name": "Bash",
+        "command_pattern": "git commit"
+      },
+      "command": "PROJECT_ROOT=\"$PWD\" bash \"$(dirname \"$0\")/../scripts/post-commit.sh\"",
+      "description": "Link git commits to active task"
+    },
+    {
+      "event": "on_session_end",
+      "command": "PROJECT_ROOT=\"$PWD\" bash \"$(dirname \"$0\")/../scripts/session-end.sh\"",
+      "description": "Close session on exit"
+    }
+  ]
+}

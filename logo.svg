@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7c6aef"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="lines" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#c4b5fd"/>
+      <stop offset="100%" stop-color="#e4e4ef"/>
+    </linearGradient>
+    <linearGradient id="prompt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c6aef"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer bracket frame -->
+  <!-- Left bracket [ -->
+  <path d="M30,16 L60,16 L60,30 L44,30 L44,170 L60,170 L60,184 L30,184 Z" fill="url(#frame)"/>
+  <!-- Right bracket ] -->
+  <path d="M140,16 L170,16 L170,184 L140,184 L140,170 L156,170 L156,30 L140,30 Z" fill="url(#frame)"/>
+  <!-- Bottom crossbar -->
+  <path d="M44,152 L156,152 L156,170 L44,170 Z" fill="url(#frame)"/>
+
+  <!-- Terminal prompt > -->
+  <polygon points="58,42 82,58 58,74" fill="url(#prompt)"/>
+
+  <!-- Cursor block -->
+  <rect x="108" y="38" width="20" height="36" rx="2" fill="#e4e4ef"/>
+
+  <!-- Task lines -->
+  <rect x="58" y="88" width="84" height="8" rx="4" fill="url(#lines)"/>
+  <rect x="58" y="106" width="84" height="8" rx="4" fill="url(#lines)" opacity="0.7"/>
+  <rect x="58" y="124" width="60" height="8" rx="4" fill="url(#lines)" opacity="0.45"/>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "name": "soloboard",
+  "version": "1.0.0",
+  "description": "Personal task tracker plugin for Claude Code",
+  "type": "module",
+  "main": "dist/mcp-server/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/mcp-server/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "nanoid": "^5.1.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.7.3"
+  }
+}

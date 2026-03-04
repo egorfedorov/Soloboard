@@ -1,0 +1,33 @@
+{
+  "name": "soloboard",
+  "version": "1.0.0",
+  "description": "Personal task tracker — invisible kanban that tracks your work automatically",
+  "author": "SoloBoard",
+  "commands": [
+    {
+      "name": "board",
+      "description": "View your kanban board",
+      "file": "../commands/board.md"
+    },
+    {
+      "name": "task",
+      "description": "Manage tasks (create, move, view, delete)",
+      "file": "../commands/task.md"
+    },
+    {
+      "name": "project",
+      "description": "Manage project boards",
+      "file": "../commands/project.md"
+    }
+  ],
+  "skills": [
+    {
+      "name": "task-tracker",
+      "description": "Automatic task tracking from user prompts",
+      "file": "../skills/task-tracker/SKILL.md",
+      "trigger": "model-invoked"
+    }
+  ],
+  "hooks": "../hooks/hooks.json",
+  "mcp": "../.mcp.json"
+}
