@@ -625,6 +625,7 @@
     white-space: nowrap;
   }
   .phase-badge.live { background: rgba(52,211,153,0.15); color: var(--green); }
+  .phase-badge.shipped { background: rgba(52,211,153,0.15); color: var(--green); }
   .phase-badge.next { background: rgba(124,106,239,0.15); color: var(--accent2); }
   .phase-badge.future { background: rgba(96,165,250,0.15); color: var(--blue); }
   .phase-badge.dream { background: rgba(251,191,36,0.15); color: var(--yellow); }
@@ -1241,37 +1242,38 @@ config.json → active project</pre>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge next">v1.3 — Next</span>
+        <span class="phase-badge shipped">v1.3 ✓</span>
         <span class="phase-title">Dependencies &amp; Planning</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">Task dependencies — blocked/blocks relationships with auto-unblock</div>
-        <div class="roadmap-item">Auto task splitting — "build auth system" → 5 subtasks with dependencies</div>
-        <div class="roadmap-item">Critical path detection — which tasks are on the critical path</div>
-        <div class="roadmap-item">Gantt view — markdown timeline with dependencies visualized</div>
-        <div class="roadmap-item">Sprint planning — time-boxed sprints with capacity estimation</div>
-        <div class="roadmap-item">Daily standup summary — what you did, what's next, blockers</div>
+        <div class="roadmap-item done">Task dependencies — blocked/blocks with cycle detection</div>
+        <div class="roadmap-item done">Task splitting — break into subtasks with progress tracking</div>
+        <div class="roadmap-item done">Critical path detection — find the bottleneck dependency chain</div>
+        <div class="roadmap-item done">Gantt view — text-based timeline with dependencies</div>
+        <div class="roadmap-item done">Sprint planning — time-boxed sprints with burndown</div>
+        <div class="roadmap-item done">Daily standup summary — done, in-progress, blocked, velocity</div>
+        <div class="roadmap-item done">Pomodoro timer — focus sessions tied to tasks</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge future">v1.4</span>
+        <span class="phase-badge shipped">v1.4 ✓</span>
         <span class="phase-title">Auto-Manager Agent</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">/soloboard-manager — launches autonomous project manager</div>
-        <div class="roadmap-item">Stall detection — flags tasks with no commits for &gt;2 hours</div>
-        <div class="roadmap-item">Auto-agent spawning — creates agents for next unblocked task</div>
-        <div class="roadmap-item">Smart reprioritization — adjusts priorities based on progress &amp; deadlines</div>
-        <div class="roadmap-item">Morning/evening standup reports — auto-generated summaries</div>
-        <div class="roadmap-item">Proactive suggestions — "task X is blocked, want me to work on Y instead?"</div>
+        <div class="roadmap-item done">Manager report — project health score, velocity, recommendations</div>
+        <div class="roadmap-item done">Stall detection — flags tasks with no activity</div>
+        <div class="roadmap-item done">Smart "suggest next" — AI-powered task scoring</div>
+        <div class="roadmap-item done">Auto-reprioritization — adjusts priorities based on blockers &amp; progress</div>
+        <div class="roadmap-item done">Gantt chart — timeline with dependency visualization</div>
+        <div class="roadmap-item done">Proactive suggestions — what to work on next</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge future">v1.5</span>
+        <span class="phase-badge next">v1.5 — Next</span>
         <span class="phase-title">Multi-Agent Orchestration</span>
       </div>
       <div class="phase-items">
