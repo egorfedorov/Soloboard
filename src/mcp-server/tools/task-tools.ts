@@ -3,6 +3,7 @@ import { z } from "zod";
 import { TaskStore } from "../storage/task-store.js";
 import { BoardStore } from "../storage/board-store.js";
 import { SessionStore } from "../storage/session-store.js";
+import { HistoryStore } from "../storage/history-store.js";
 import { Store } from "../storage/store.js";
 import { TaskStatus } from "../models/task.js";
 
@@ -11,7 +12,8 @@ export function registerTaskTools(
   store: Store,
   taskStore: TaskStore,
   boardStore: BoardStore,
-  sessionStore: SessionStore
+  sessionStore: SessionStore,
+  historyStore?: HistoryStore
 ) {
   // 1. task_create
   server.tool(
@@ -157,6 +159,17 @@ export function registerTaskTools(
         if (status === "done") {
           await sessionStore.addCompletedTask(config.activeSessionId, task.id);
         }
+      }
+
+      // v2.0: Auto-record completion history
+      if (status === "done" && historyStore) {
+        const actualMinutes = Math.round(task.totalSeconds / 60);
+        await historyStore.recordCompletion(
+          task.id, task.title, task.tags,
+          task.complexity ?? null,
+          task.estimatedMinutes ?? null,
+          actualMinutes
+        );
       }
 
       return {

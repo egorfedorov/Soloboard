@@ -5,14 +5,14 @@
 <h1 align="center">SoloBoard</h1>
 
 <p align="center">
-  <strong>Invisible personal kanban for Claude Code</strong><br>
-  You code. Board tracks. That's it.
+  <strong>Autonomous development orchestrator for Claude Code</strong><br>
+  From invisible kanban to autonomous dev team. 94 tools.
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-plugin-7c6aef?style=flat-square" alt="Claude Code Plugin">
   <img src="https://img.shields.io/badge/MCP-server-a78bfa?style=flat-square" alt="MCP Server">
-  <img src="https://img.shields.io/badge/tools-44-34d399?style=flat-square" alt="44 Tools">
+  <img src="https://img.shields.io/badge/tools-94-34d399?style=flat-square" alt="94 Tools">
   <img src="https://img.shields.io/badge/license-MIT-60a5fa?style=flat-square" alt="MIT">
 </p>
 
@@ -104,6 +104,19 @@ Then just `cd your-project && claude` — the board manages itself.
 - **Markdown export** — export the board as markdown for reports or sharing
 - **Multi-project dashboard** — see all projects at a glance with `dashboard`
 - **Global CLI** — `npm install -g soloboard && soloboard install`
+- **Multi-agent orchestration** — register agents, claim tasks, lock files, handoff context
+- **NL planning** — describe what you want to build, get a structured task plan
+- **Predictive estimates** — learns from history, predicts task durations
+- **Risk assessment** — git hotspots, dependency depth, complexity scoring
+- **GitHub/Linear/Jira sync** — push/pull issues, bidirectional status sync
+- **PR auto-flow** — branch → commit → push → PR → link to task
+- **Autonomous code review** — finds TODOs, type errors, security issues
+- **QA automation** — run tests, parse results, create bug tasks for failures
+- **DevOps pipeline** — deploy check, run, status with approval gates
+- **Tech lead mode** — distribute tasks to agents by skills and complexity
+- **Team management** — add members with roles, track workload, suggest assignments
+- **Approval workflow** — human-in-the-loop for autonomous decisions
+- **VSCode extension** — visual board in sidebar with live file watching
 
 ## Architecture
 
@@ -111,7 +124,7 @@ Then just `cd your-project && claude` — the board manages itself.
 soloboard/
 ├── src/mcp-server/
 │   ├── index.ts              # Entry point (stdio transport)
-│   ├── server.ts             # MCP server + 44 tools
+│   ├── server.ts             # MCP server + 94 tools
 │   ├── tools/
 │   │   ├── task-tools.ts     # create/update/get/list/move/delete
 │   │   ├── board-tools.ts    # view/project-create/list/switch
@@ -127,10 +140,23 @@ soloboard/
 │   │   ├── subtask-tools.ts  # split/subtasks
 │   │   ├── sprint-tools.ts   # create/add/close/view
 │   │   ├── standup-tools.ts  # standup/pomodoro
-│   │   └── manager-tools.ts  # report/stall/suggest/reprioritize/gantt
+│   │   ├── manager-tools.ts  # report/stall/suggest/reprioritize/gantt
+│   │   ├── orchestration-tools.ts  # v1.5: agent register/claim/handoff/lock
+│   │   ├── planning-tools.ts       # v2.0: plan from prompt/apply/templates
+│   │   ├── prediction-tools.ts     # v2.0: predict/velocity/burndown
+│   │   ├── risk-tools.ts           # v2.0: risk assess/report/classify
+│   │   ├── sync-tools.ts           # v2.0: GitHub/Linear/Jira sync
+│   │   ├── pr-tools.ts             # v2.0: PR create/status/auto-flow
+│   │   ├── approval-tools.ts       # v3.0: request/list/resolve
+│   │   ├── code-review-tools.ts    # v3.0: review run/findings/respond
+│   │   ├── qa-tools.ts             # v3.0: qa run/report/rerun/coverage
+│   │   ├── devops-tools.ts         # v3.0: deploy check/run/status
+│   │   ├── tech-lead-tools.ts      # v3.0: distribute/status/reassign/pipeline
+│   │   └── team-tools.ts           # v3.0: add/list/assign/workload/suggest
 │   ├── storage/              # Atomic writes, file-per-task
-│   ├── models/               # Task, Board, Session, Sprint, Config
-│   └── utils/                # nanoid, git helpers, project analyzer
+│   ├── models/               # Task, Board, Session, Sprint, Config + 8 new models
+│   └── utils/                # nanoid, git, project analyzer, file-lock, external-sync
+├── vscode-extension/         # VSCode sidebar board view
 ├── scripts/                  # Hook scripts (session, files, commits)
 ├── commands/                 # Slash command definitions
 ├── skills/                   # Smart auto-tracking skill
@@ -146,10 +172,20 @@ soloboard/
 ├── tasks/{id}.json           # One file per task (with context)
 ├── sprints/{id}.json         # Sprint definitions
 ├── archive/{id}.json         # Completed old tasks
-└── sessions/{id}.json        # Session logs (gitignored)
+├── sessions/{id}.json        # Session logs (gitignored)
+├── agents/{id}.json          # v1.5: Agent registrations
+├── handoffs/{id}.json        # v1.5: Handoff contexts
+├── locks/{hash}.lock.json    # v1.5: File locks
+├── history/{id}.json         # v2.0: Completion records
+├── velocity/{id}.json        # v2.0: Velocity snapshots
+├── approvals/{id}.json       # v3.0: Approval requests
+├── reviews/{id}.json         # v3.0: Code reviews
+├── qa/{id}.json              # v3.0: QA results
+├── deployments/{id}.json     # v3.0: Deployments
+└── team/{id}.json            # v3.0: Team members
 ```
 
-## MCP Tools (44)
+## MCP Tools (94)
 
 | Tool | Purpose |
 |------|---------|
@@ -207,6 +243,59 @@ soloboard/
 | `session_summary` | Session activity summary |
 | `git_link` | Link commit/branch/PR to task |
 | `git_status` | Git repo status + recent commits |
+| **v1.5: Multi-Agent** | |
+| `agent_register` | Register agent session for multi-agent work |
+| `agent_heartbeat` | Update heartbeat, clean stale agents |
+| `agent_list` | List active agents + tasks + locked files |
+| `agent_claim_task` | Assign task to agent (fails if claimed) |
+| `conflict_check` | Check if files locked by another agent |
+| `file_lock` | Lock files to prevent concurrent edits |
+| `file_unlock` | Release file locks |
+| `agent_handoff` | Create handoff context + release locks |
+| `agent_pickup` | Accept handoff, get full context |
+| `parallel_plan` | Suggest parallelizable task batches |
+| **v2.0: Planning** | |
+| `plan_from_prompt` | NL description → structured task breakdown |
+| `plan_apply` | Bulk-create tasks from plan with deps |
+| `plan_templates` | Pre-built templates: SaaS, API, CLI, library |
+| `predict_duration` | Predict task time from history |
+| `velocity_report` | Tasks/day trends, sprint projection |
+| `burndown_data` | ASCII burndown chart for sprint |
+| `record_velocity` | Snapshot daily velocity |
+| `risk_assess` | Git hotspots + deps → risk level |
+| `risk_report` | All tasks ranked by risk |
+| `complexity_classify` | Auto-classify trivial → epic |
+| `sync_setup` | Configure GitHub/Linear/Jira |
+| `sync_push` | Push task to external tool |
+| `sync_pull` | Import issues from external |
+| `sync_update` | Bidirectional status sync |
+| `sync_status` | Show sync state for linked tasks |
+| `pr_create` | Branch + push + PR + link |
+| `pr_status` | Check PR review/CI/merge |
+| `pr_auto_flow` | Full branch → commit → PR flow |
+| **v3.0: Autonomous** | |
+| `approval_request` | Create approval for human review |
+| `approval_list` | List pending approvals |
+| `approval_resolve` | Approve/reject with reason |
+| `review_run` | Code review: TODOs, types, security |
+| `review_findings` | View review findings |
+| `review_respond` | Respond: fixed/wont_fix/acknowledged |
+| `qa_run` | Run tests, create bug tasks |
+| `qa_report` | View QA results |
+| `qa_rerun` | Re-run, compare with previous |
+| `qa_coverage` | Test coverage for changed files |
+| `deploy_check` | Readiness check before deploy |
+| `deploy_run` | Execute deployment |
+| `deploy_status` | Deployment history |
+| `lead_distribute` | Distribute tasks to agents |
+| `lead_status` | Dashboard: agents, tasks, pipeline |
+| `lead_reassign` | Reassign with handoff context |
+| `lead_pipeline` | Coding → review → QA → deploy |
+| `team_add` | Add team member with skills |
+| `team_list` | List members with stats |
+| `team_assign` | Assign task to member |
+| `team_workload` | Workload distribution |
+| `team_suggest_assignment` | Auto-suggest by skills/availability |
 
 ## What install.sh does
 

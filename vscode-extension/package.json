@@ -1,0 +1,51 @@
+{
+  "name": "soloboard-vscode",
+  "displayName": "SoloBoard",
+  "description": "Visual board view for SoloBoard kanban task tracker",
+  "version": "3.0.0",
+  "publisher": "egorfedorov",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": ["workspaceContains:.kanban"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "soloboard",
+          "title": "SoloBoard",
+          "icon": "$(checklist)"
+        }
+      ]
+    },
+    "views": {
+      "soloboard": [
+        {
+          "id": "soloboard.board",
+          "name": "Board"
+        },
+        {
+          "id": "soloboard.team",
+          "name": "Team"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "soloboard.refresh",
+        "title": "Refresh Board",
+        "icon": "$(refresh)"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.7.3"
+  }
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SoloBoard — Invisible Task Tracker for Claude Code</title>
+<title>SoloBoard — Autonomous Development Orchestrator for Claude Code</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -717,7 +717,7 @@
     <span class="highlight">Board tracks.</span>
   </h1>
   <p class="hero-sub">
-    Invisible personal kanban for Claude Code. No setup commands, no context switching. Just work — SoloBoard silently tracks tasks, links commits, and stays out of your way.
+    From invisible kanban to autonomous dev team. 94 MCP tools. Multi-agent orchestration, AI planning, code review, QA, deployments — all local, all automatic.
   </p>
   <div class="npm-install-line">
     <code>npm install -g soloboard</code>
@@ -1069,7 +1069,7 @@
       <h3>.mcp.json</h3>
       <pre>Adds SoloBoard MCP server
 so Claude Code can call
-the 44 board tools.
+the 94 board tools.
     </div>
     <div class="arch-card">
       <h3>CLAUDE.md</h3>
@@ -1086,11 +1086,19 @@ respond to /soloboard-*</pre>
     </div>
     <div class="arch-card">
       <h3>.kanban/</h3>
-      <pre>boards/   → project boards
-tasks/    → one file per task
-sprints/  → sprint definitions
-sessions/ → ephemeral logs
-config.json → active project</pre>
+      <pre>boards/      → project boards
+tasks/       → one file per task
+sprints/     → sprint definitions
+agents/      → v1.5 agent sessions
+handoffs/    → v1.5 context transfers
+locks/       → v1.5 file locks
+history/     → v2.0 completion records
+velocity/    → v2.0 velocity snapshots
+approvals/   → v3.0 approval requests
+reviews/     → v3.0 code reviews
+qa/          → v3.0 test results
+deployments/ → v3.0 deploy records
+team/        → v3.0 team members</pre>
     </div>
   </div>
 </section>
@@ -1098,7 +1106,7 @@ config.json → active project</pre>
 <!-- TOOLS -->
 <section id="tools">
   <div class="section-label">MCP tools</div>
-  <h2><span class="highlight">44</span> tools, zero noise</h2>
+  <h2><span class="highlight">94</span> tools, zero noise</h2>
   <p class="section-sub">
     All tools are called by Claude automatically. You never need to call them yourself.
   </p>
@@ -1172,6 +1180,78 @@ config.json → active project</pre>
       <tr><td>session_summary</td><td>Summary: tasks created, completed, commits, files</td></tr>
       <tr><td>git_link</td><td>Link commit SHA, branch, or PR URL to a task</td></tr>
       <tr><td>git_status</td><td>Git branch, status, and recent commits</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v1.5: Multi-Agent Orchestration</td></tr>
+      <tr><td>agent_register</td><td>Register an agent session for multi-agent work</td></tr>
+      <tr><td>agent_heartbeat</td><td>Update heartbeat, clean stale agents (&gt;5min)</td></tr>
+      <tr><td>agent_list</td><td>List active agents with tasks and locked files</td></tr>
+      <tr><td>agent_claim_task</td><td>Assign task to agent (fails if already claimed)</td></tr>
+      <tr><td>conflict_check</td><td>Check if files are locked by another agent</td></tr>
+      <tr><td>file_lock</td><td>Lock files to prevent concurrent edits</td></tr>
+      <tr><td>file_unlock</td><td>Release file locks</td></tr>
+      <tr><td>agent_handoff</td><td>Create handoff context + release locks</td></tr>
+      <tr><td>agent_pickup</td><td>Accept handoff, get full context from previous agent</td></tr>
+      <tr><td>parallel_plan</td><td>Analyze dependency graph, suggest parallelizable batches</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v2.0: Planning &amp; Prediction</td></tr>
+      <tr><td>plan_from_prompt</td><td>Natural language &rarr; structured task breakdown with deps</td></tr>
+      <tr><td>plan_apply</td><td>Bulk-create tasks from plan, set dependencies</td></tr>
+      <tr><td>plan_templates</td><td>Pre-built templates: SaaS, API, CLI, library</td></tr>
+      <tr><td>predict_duration</td><td>Predict task time from historical similar tasks</td></tr>
+      <tr><td>velocity_report</td><td>Tasks/day trends, sprint projection</td></tr>
+      <tr><td>burndown_data</td><td>ASCII burndown chart for sprint</td></tr>
+      <tr><td>record_velocity</td><td>Snapshot daily velocity</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v2.0: Risk &amp; Complexity</td></tr>
+      <tr><td>risk_assess</td><td>Git hotspots + deps + complexity &rarr; risk level</td></tr>
+      <tr><td>risk_report</td><td>All tasks ranked by risk with mitigations</td></tr>
+      <tr><td>complexity_classify</td><td>Auto-classify: trivial / small / medium / large / epic</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v2.0: External Sync</td></tr>
+      <tr><td>sync_setup</td><td>Configure GitHub / Linear / Jira credentials</td></tr>
+      <tr><td>sync_push</td><td>Push task to external tool as issue</td></tr>
+      <tr><td>sync_pull</td><td>Import issues from external tool into tasks</td></tr>
+      <tr><td>sync_update</td><td>Sync status changes bidirectionally</td></tr>
+      <tr><td>sync_status</td><td>Show sync state for all linked tasks</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v2.0: Pull Requests</td></tr>
+      <tr><td>pr_create</td><td>Branch + push + PR + link to task</td></tr>
+      <tr><td>pr_status</td><td>Check PR review / CI / merge status</td></tr>
+      <tr><td>pr_auto_flow</td><td>Full flow: branch &rarr; commit &rarr; push &rarr; PR &rarr; link</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: Approvals</td></tr>
+      <tr><td>approval_request</td><td>Create approval request for human review</td></tr>
+      <tr><td>approval_list</td><td>List pending approval requests</td></tr>
+      <tr><td>approval_resolve</td><td>Approve or reject with reason</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: Code Review</td></tr>
+      <tr><td>review_run</td><td>Analyze files: TODOs, type errors, security issues</td></tr>
+      <tr><td>review_findings</td><td>View detailed review findings</td></tr>
+      <tr><td>review_respond</td><td>Respond: fixed / wont_fix / acknowledged</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: QA &amp; Testing</td></tr>
+      <tr><td>qa_run</td><td>Run tests, parse results, create bug tasks for failures</td></tr>
+      <tr><td>qa_report</td><td>View QA results</td></tr>
+      <tr><td>qa_rerun</td><td>Re-run after fixes, compare with previous run</td></tr>
+      <tr><td>qa_coverage</td><td>Check test file coverage for changed files</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: DevOps</td></tr>
+      <tr><td>deploy_check</td><td>Readiness check: all done, reviewed, QA passed</td></tr>
+      <tr><td>deploy_run</td><td>Execute deployment (approval required for production)</td></tr>
+      <tr><td>deploy_status</td><td>Deployment history and status</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: Tech Lead</td></tr>
+      <tr><td>lead_distribute</td><td>Distribute tasks to agents by deps/complexity/skills</td></tr>
+      <tr><td>lead_status</td><td>Dashboard: agents, tasks, pipeline progress</td></tr>
+      <tr><td>lead_reassign</td><td>Reassign task with handoff context</td></tr>
+      <tr><td>lead_pipeline</td><td>Full pipeline: coding &rarr; review &rarr; QA &rarr; deploy</td></tr>
+
+      <tr><td class="tools-group" colspan="2">v3.0: Team Management</td></tr>
+      <tr><td>team_add</td><td>Add team member with role and skills</td></tr>
+      <tr><td>team_list</td><td>List members with stats and assignments</td></tr>
+      <tr><td>team_assign</td><td>Assign task to team member</td></tr>
+      <tr><td>team_workload</td><td>Workload distribution view with chart</td></tr>
+      <tr><td>team_suggest_assignment</td><td>Auto-suggest best member by skills/availability</td></tr>
     </tbody>
   </table>
 </section>
@@ -1273,46 +1353,63 @@ config.json → active project</pre>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge next">v1.5 — Next</span>
+        <span class="phase-badge shipped">v1.5 ✓</span>
         <span class="phase-title">Multi-Agent Orchestration</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">Parallel agents — multiple tasks worked on simultaneously</div>
-        <div class="roadmap-item">Agent-to-agent handoff — context transfer between agents</div>
-        <div class="roadmap-item">Conflict detection — prevents two agents editing the same file</div>
-        <div class="roadmap-item">Resource allocation — auto-decides which tasks can be parallelized</div>
-        <div class="roadmap-item">Agent performance tracking — which agents finish faster, quality metrics</div>
+        <div class="roadmap-item done">Parallel agents — multiple tasks worked on simultaneously</div>
+        <div class="roadmap-item done">Agent-to-agent handoff — context transfer between agents</div>
+        <div class="roadmap-item done">Conflict detection — prevents two agents editing the same file</div>
+        <div class="roadmap-item done">Resource allocation — auto-decides which tasks can be parallelized</div>
+        <div class="roadmap-item done">Agent performance tracking — heartbeat, metrics, stale cleanup</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge dream">v2.0</span>
+        <span class="phase-badge shipped">v2.0 ✓</span>
         <span class="phase-title">AI-native PM</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">Natural language planning — "build a SaaS with auth and payments" → full plan</div>
-        <div class="roadmap-item">Predictive estimates — learns your pace, predicts task durations</div>
-        <div class="roadmap-item">Risk detection — "this module breaks often, add tests first"</div>
-        <div class="roadmap-item">GitHub/Linear/Jira sync — two-way integration with external tools</div>
-        <div class="roadmap-item">PR auto-creation — task → branch → PR in one flow</div>
-        <div class="roadmap-item">Velocity tracking — burn-down charts, tasks/week trends</div>
+        <div class="roadmap-item done">Natural language planning — prompt &rarr; structured task breakdown</div>
+        <div class="roadmap-item done">Predictive estimates — learns your pace, predicts task durations</div>
+        <div class="roadmap-item done">Risk detection — git hotspots, complexity, dep depth analysis</div>
+        <div class="roadmap-item done">GitHub/Linear/Jira sync — two-way integration with external tools</div>
+        <div class="roadmap-item done">PR auto-creation — task &rarr; branch &rarr; PR in one flow</div>
+        <div class="roadmap-item done">Velocity tracking — burn-down charts, tasks/day trends</div>
+        <div class="roadmap-item done">Plan templates — SaaS, API, CLI, library pre-built plans</div>
+        <div class="roadmap-item done">Auto-recording — completion history logged automatically</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge dream">v3.0</span>
+        <span class="phase-badge shipped">v3.0 ✓</span>
         <span class="phase-title">Autonomous Dev Team</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">SoloBoard as tech lead — distributes tasks to agent team</div>
-        <div class="roadmap-item">Code review agent — reviews other agents' work automatically</div>
-        <div class="roadmap-item">QA agent — runs tests, creates bug tasks from failures</div>
-        <div class="roadmap-item">DevOps agent — deploys when all tests pass</div>
-        <div class="roadmap-item">Human-in-the-loop — you only approve/reject decisions</div>
-        <div class="roadmap-item">VSCode extension — visual board in the sidebar</div>
-        <div class="roadmap-item">Team mode — multiple developers + AI manager on one board</div>
+        <div class="roadmap-item done">Tech lead — distributes tasks to agent team by skills/complexity</div>
+        <div class="roadmap-item done">Code review — automated review: TODOs, type errors, security</div>
+        <div class="roadmap-item done">QA agent — runs tests, creates bug tasks from failures</div>
+        <div class="roadmap-item done">DevOps agent — deploy check, run, status with approval gates</div>
+        <div class="roadmap-item done">Human-in-the-loop — approval workflow for autonomous decisions</div>
+        <div class="roadmap-item done">VSCode extension — visual board in the sidebar</div>
+        <div class="roadmap-item done">Team mode — add members with roles, skills, workload tracking</div>
+        <div class="roadmap-item done">Pipeline view — coding &rarr; review &rarr; QA &rarr; deploy flow</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge next">v4.0 — Next</span>
+        <span class="phase-title">Self-Improving System</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">Multi-repo projects — one board across multiple git repos</div>
+        <div class="roadmap-item">Board sharing — export as interactive HTML</div>
+        <div class="roadmap-item">Learning from reviews — auto-improve code patterns over time</div>
+        <div class="roadmap-item">Custom agent roles — define your own roles and capabilities</div>
+        <div class="roadmap-item">Webhook integrations — Slack, Discord, email notifications</div>
       </div>
     </div>
   </div>

@@ -1,6 +1,22 @@
 export type TaskStatus = "todo" | "doing" | "done";
 export type TaskPriority = "low" | "medium" | "high";
 
+// v2.0
+export type TaskComplexity = "trivial" | "small" | "medium" | "large" | "epic";
+export type RiskLevel = "low" | "medium" | "high" | "critical";
+
+export interface ExternalLink {
+  provider: "github" | "linear" | "jira";
+  externalId: string;
+  url: string;
+  syncDirection: "push" | "pull" | "bidirectional";
+  lastSyncedAt: string | null;
+}
+
+// v3.0
+export type ReviewStatus = "pending" | "in_review" | "approved" | "changes_requested";
+export type QAStatus = "pending" | "running" | "passed" | "failed";
+
 export interface TimeEntry {
   start: string;
   end: string | null;
@@ -41,6 +57,18 @@ export interface Task {
   // v1.3: Sprints
   sprintId: string | null;
   estimatedMinutes: number | null;
+  // v1.5: Multi-agent
+  assignedAgentId: string | null;
+  // v2.0: AI-native PM
+  externalLinks: ExternalLink[];
+  predictedMinutes: number | null;
+  complexity: TaskComplexity | null;
+  riskLevel: RiskLevel | null;
+  // v3.0: Autonomous Dev Team
+  assignedMemberId: string | null;
+  reviewStatus: ReviewStatus | null;
+  qaStatus: QAStatus | null;
+  deploymentId: string | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -91,6 +119,15 @@ export function createTask(
     blocks: [],
     sprintId: null,
     estimatedMinutes: null,
+    assignedAgentId: null,
+    externalLinks: [],
+    predictedMinutes: null,
+    complexity: null,
+    riskLevel: null,
+    assignedMemberId: null,
+    reviewStatus: null,
+    qaStatus: null,
+    deploymentId: null,
     createdAt: now,
     updatedAt: now,
     completedAt: null,
