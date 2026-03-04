@@ -17,8 +17,16 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
+          scope: '@egorfedorov'
       - run: npm ci
       - run: npm run build
-      - run: npm publish
+      - run: |
+          # Temporarily set scoped name for GitHub Packages
+          node -e "
+            const pkg = require('./package.json');
+            pkg.name = '@egorfedorov/soloboard';
+            require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
