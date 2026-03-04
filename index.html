@@ -772,6 +772,26 @@
       <h3>Safe permissions</h3>
       <p>Only touches your project's .kanban/ directory. No network, no dangerous ops. Just files.</p>
     </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#9202;</span>
+      <h3>Time tracking</h3>
+      <p>Automatic: timer starts when task enters DOING, stops when it leaves. Per-task and total reports.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128200;</span>
+      <h3>Multi-project dashboard</h3>
+      <p>See all projects at a glance — task counts, active tasks, and total time across everything.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128196;</span>
+      <h3>Markdown export</h3>
+      <p>Export your board as clean markdown with checkboxes, priorities, and git details for reports.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128187;</span>
+      <h3>Global CLI</h3>
+      <p><code>npm install -g soloboard</code> then <code>soloboard install</code> in any project. Done.</p>
+    </div>
   </div>
 </section>
 
@@ -817,7 +837,7 @@
             <span class="tag">auth</span>
             <span class="tag">bugfix</span>
           </div>
-          <div class="task-git">&#9741; feature/fix-login &middot; abc1234</div>
+          <div class="task-git">&#9741; feature/fix-login &middot; abc1234 &middot; 1h 23m</div>
         </div>
       </div>
       <div class="board-col col-done">
@@ -849,36 +869,28 @@
 
   <div class="install-block">
     <div class="install-step">
-      <h3><span class="step-num">1</span> Clone SoloBoard</h3>
+      <h3><span class="step-num">A</span> npm global (recommended)</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        npm install -g soloboard<br>
+        cd your-project && soloboard install<br>
+        claude<br>
+        <span class="comment"># That's it. Board is automatic.</span>
+      </div>
+    </div>
+
+    <div class="install-step" style="text-align:center;padding:0.5rem 0">
+      <span style="color:var(--text2);font-size:0.9rem">— or —</span>
+    </div>
+
+    <div class="install-step">
+      <h3><span class="step-num">B</span> Clone & build</h3>
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">copy</button>
         git clone https://github.com/egorfedorov/Soloboard.git<br>
-        <span class="comment"># or download & unpack anywhere</span>
-      </div>
-    </div>
-
-    <div class="install-step">
-      <h3><span class="step-num">2</span> Build once</h3>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        cd soloboard && npm install && npm run build
-      </div>
-    </div>
-
-    <div class="install-step">
-      <h3><span class="step-num">3</span> Install into any project</h3>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        bash /path/to/soloboard/install.sh /path/to/your/project
-      </div>
-    </div>
-
-    <div class="install-step">
-      <h3><span class="step-num">4</span> Start working</h3>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        cd your-project && claude<br>
-        <span class="comment"># That's it. Board is automatic.</span>
+        cd Soloboard && npm install && npm run build<br>
+        bash install.sh /path/to/your/project<br>
+        cd /path/to/your/project && claude
       </div>
     </div>
   </div>
@@ -895,7 +907,7 @@
       <h3>.mcp.json</h3>
       <pre>Adds SoloBoard MCP server
 so Claude Code can call
-the 16 board tools.</pre>
+the 20 board tools.</pre>
     </div>
     <div class="arch-card">
       <h3>CLAUDE.md</h3>
@@ -923,7 +935,7 @@ config.json → active project</pre>
 <!-- TOOLS -->
 <section id="tools">
   <div class="section-label">MCP tools</div>
-  <h2><span class="highlight">16</span> tools, zero noise</h2>
+  <h2><span class="highlight">20</span> tools, zero noise</h2>
   <p class="section-sub">
     All tools are called by Claude automatically. You never need to call them yourself.
   </p>
@@ -945,11 +957,15 @@ config.json → active project</pre>
       <tr><td>task_update</td><td>Update any task field (description, priority, tags, branch, PR)</td></tr>
       <tr><td>task_get</td><td>Get full task details by ID or fuzzy name match</td></tr>
       <tr><td>task_list</td><td>List all tasks, optionally filtered by status</td></tr>
-      <tr><td>task_move</td><td>Move task between TODO / DOING / DONE</td></tr>
+      <tr><td>task_move</td><td>Move task between TODO / DOING / DONE (auto-tracks time)</td></tr>
       <tr><td>task_delete</td><td>Archive or permanently delete a task</td></tr>
+      <tr><td>task_prioritize</td><td>Change priority + auto-sort column (high floats to top)</td></tr>
+      <tr><td>task_time</td><td>Time tracking report — per task or all tasks</td></tr>
 
-      <tr><td class="tools-group" colspan="2">Board</td></tr>
-      <tr><td>board_view</td><td>Full kanban board with priorities, tags, and task IDs</td></tr>
+      <tr><td class="tools-group" colspan="2">Board & Export</td></tr>
+      <tr><td>board_view</td><td>Full kanban board sorted by priority, with time tracking</td></tr>
+      <tr><td>board_export</td><td>Export board as clean markdown for reports</td></tr>
+      <tr><td>dashboard</td><td>Multi-project overview with task counts and time totals</td></tr>
       <tr><td>project_create</td><td>Create a new project board</td></tr>
       <tr><td>project_list</td><td>List all projects with task counts</td></tr>
       <tr><td>project_switch</td><td>Switch active project by name or ID</td></tr>

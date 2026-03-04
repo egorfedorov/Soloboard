@@ -7,11 +7,38 @@
   "bin": {
     "soloboard": "dist/cli.js"
   },
+  "files": [
+    "dist/",
+    "scripts/",
+    "commands/",
+    "hooks/",
+    "skills/",
+    "install.sh",
+    "logo.svg",
+    ".claude-plugin/",
+    ".mcp.json"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/mcp-server/index.js"
+    "start": "node dist/mcp-server/index.js",
+    "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "claude-code",
+    "mcp",
+    "kanban",
+    "task-tracker",
+    "claude",
+    "ai",
+    "productivity"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/egorfedorov/Soloboard.git"
+  },
+  "license": "MIT",
+  "author": "Egor Fedorov",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
     "nanoid": "^5.1.5",
