@@ -1147,60 +1147,104 @@ config.json → active project</pre>
   <div class="roadmap-timeline">
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge live">v1.1 — Now</span>
+        <span class="phase-badge live">v1.1</span>
         <span class="phase-title">Foundation</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item done">20 MCP tools</div>
         <div class="roadmap-item done">Auto-tracking from prompts</div>
-        <div class="roadmap-item done">Git commit linking</div>
-        <div class="roadmap-item done">Time tracking</div>
-        <div class="roadmap-item done">Priority sorting</div>
-        <div class="roadmap-item done">Markdown export</div>
-        <div class="roadmap-item done">Multi-project dashboard</div>
-        <div class="roadmap-item done">Global CLI</div>
+        <div class="roadmap-item done">Git commit &amp; file linking</div>
+        <div class="roadmap-item done">Time tracking &amp; priority sorting</div>
+        <div class="roadmap-item done">Markdown export &amp; multi-project dashboard</div>
+        <div class="roadmap-item done">Global CLI &amp; npm package</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge next">v1.2 — Next</span>
+        <span class="phase-badge live">v1.2</span>
         <span class="phase-title">Intelligence</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">Smart task splitting — "build auth system" auto-breaks into subtasks</div>
-        <div class="roadmap-item">Blocked/dependency tracking — task A blocks task B</div>
-        <div class="roadmap-item">Sprint mode — group tasks into time-boxed sprints</div>
-        <div class="roadmap-item">Daily standup summary — what you did yesterday, plan for today</div>
-        <div class="roadmap-item">Pomodoro integration — focus timer tied to active task</div>
+        <div class="roadmap-item done">Smart task creation — auto-analyzes project, finds files, sets tags &amp; priority</div>
+        <div class="roadmap-item done">Task context — save/restore what you looked at, decisions, remaining work</div>
+        <div class="roadmap-item done">Task agents — auto-generate .claude/agents/ files with full context</div>
+        <div class="roadmap-item done">Auto-review — pre-close checklist: TODOs, tests, type errors</div>
+        <div class="roadmap-item done">Project analyzer — keyword extraction, hotspot detection, test discovery</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge future">v1.3 — Future</span>
-        <span class="phase-title">Collaboration</span>
+        <span class="phase-badge next">v1.3 — Next</span>
+        <span class="phase-title">Dependencies &amp; Planning</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">GitHub Issues sync — two-way sync tasks with GitHub issues</div>
-        <div class="roadmap-item">PR auto-creation — task → branch → PR in one flow</div>
-        <div class="roadmap-item">Board sharing — export as interactive HTML page</div>
-        <div class="roadmap-item">Velocity tracking — tasks/week, avg time per task, burn-down</div>
-        <div class="roadmap-item">Multi-repo projects — one board across multiple git repos</div>
+        <div class="roadmap-item">Task dependencies — blocked/blocks relationships with auto-unblock</div>
+        <div class="roadmap-item">Auto task splitting — "build auth system" → 5 subtasks with dependencies</div>
+        <div class="roadmap-item">Critical path detection — which tasks are on the critical path</div>
+        <div class="roadmap-item">Gantt view — markdown timeline with dependencies visualized</div>
+        <div class="roadmap-item">Sprint planning — time-boxed sprints with capacity estimation</div>
+        <div class="roadmap-item">Daily standup summary — what you did, what's next, blockers</div>
       </div>
     </div>
 
     <div class="roadmap-phase">
       <div class="phase-header">
-        <span class="phase-badge dream">v2.0 — Vision</span>
+        <span class="phase-badge future">v1.4</span>
+        <span class="phase-title">Auto-Manager Agent</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">/soloboard-manager — launches autonomous project manager</div>
+        <div class="roadmap-item">Stall detection — flags tasks with no commits for &gt;2 hours</div>
+        <div class="roadmap-item">Auto-agent spawning — creates agents for next unblocked task</div>
+        <div class="roadmap-item">Smart reprioritization — adjusts priorities based on progress &amp; deadlines</div>
+        <div class="roadmap-item">Morning/evening standup reports — auto-generated summaries</div>
+        <div class="roadmap-item">Proactive suggestions — "task X is blocked, want me to work on Y instead?"</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge future">v1.5</span>
+        <span class="phase-title">Multi-Agent Orchestration</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">Parallel agents — multiple tasks worked on simultaneously</div>
+        <div class="roadmap-item">Agent-to-agent handoff — context transfer between agents</div>
+        <div class="roadmap-item">Conflict detection — prevents two agents editing the same file</div>
+        <div class="roadmap-item">Resource allocation — auto-decides which tasks can be parallelized</div>
+        <div class="roadmap-item">Agent performance tracking — which agents finish faster, quality metrics</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge dream">v2.0</span>
         <span class="phase-title">AI-native PM</span>
       </div>
       <div class="phase-items">
-        <div class="roadmap-item">Predictive estimates — AI learns your pace and predicts task durations</div>
-        <div class="roadmap-item">Context handoff — seamless task transfer between Claude sessions</div>
-        <div class="roadmap-item">Code-aware priorities — auto-prioritize based on git blame hotspots</div>
-        <div class="roadmap-item">Team mode — multiple Claude agents on one board</div>
-        <div class="roadmap-item">VSCode extension — see your board in the sidebar</div>
+        <div class="roadmap-item">Natural language planning — "build a SaaS with auth and payments" → full plan</div>
+        <div class="roadmap-item">Predictive estimates — learns your pace, predicts task durations</div>
+        <div class="roadmap-item">Risk detection — "this module breaks often, add tests first"</div>
+        <div class="roadmap-item">GitHub/Linear/Jira sync — two-way integration with external tools</div>
+        <div class="roadmap-item">PR auto-creation — task → branch → PR in one flow</div>
+        <div class="roadmap-item">Velocity tracking — burn-down charts, tasks/week trends</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge dream">v3.0</span>
+        <span class="phase-title">Autonomous Dev Team</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">SoloBoard as tech lead — distributes tasks to agent team</div>
+        <div class="roadmap-item">Code review agent — reviews other agents' work automatically</div>
+        <div class="roadmap-item">QA agent — runs tests, creates bug tasks from failures</div>
+        <div class="roadmap-item">DevOps agent — deploys when all tests pass</div>
+        <div class="roadmap-item">Human-in-the-loop — you only approve/reject decisions</div>
+        <div class="roadmap-item">VSCode extension — visual board in the sidebar</div>
+        <div class="roadmap-item">Team mode — multiple developers + AI manager on one board</div>
       </div>
     </div>
   </div>
