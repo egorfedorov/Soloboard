@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <style>
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes line1  { 0%, 3%  { opacity: 0; } 4%  { opacity: 1; } }
+    @keyframes line2  { 0%, 8%  { opacity: 0; } 9%  { opacity: 1; } }
+    @keyframes line3  { 0%, 14% { opacity: 0; } 15% { opacity: 1; } }
+    @keyframes line4  { 0%, 16% { opacity: 0; } 17% { opacity: 1; } }
+    @keyframes line5  { 0%, 22% { opacity: 0; } 23% { opacity: 1; } }
+    @keyframes line6  { 0%, 28% { opacity: 0; } 29% { opacity: 1; } }
+    @keyframes line7  { 0%, 30% { opacity: 0; } 31% { opacity: 1; } }
+    @keyframes line8  { 0%, 38% { opacity: 0; } 39% { opacity: 1; } }
+    @keyframes line9  { 0%, 40% { opacity: 0; } 41% { opacity: 1; } }
+    @keyframes line10 { 0%, 48% { opacity: 0; } 49% { opacity: 1; } }
+    @keyframes line11 { 0%, 50% { opacity: 0; } 51% { opacity: 1; } }
+    @keyframes line12 { 0%, 56% { opacity: 0; } 57% { opacity: 1; } }
+    @keyframes line13 { 0%, 58% { opacity: 0; } 59% { opacity: 1; } }
+    @keyframes line14 { 0%, 60% { opacity: 0; } 61% { opacity: 1; } }
+    @keyframes line15 { 0%, 62% { opacity: 0; } 63% { opacity: 1; } }
+    @keyframes line16 { 0%, 64% { opacity: 0; } 65% { opacity: 1; } }
+    @keyframes line17 { 0%, 66% { opacity: 0; } 67% { opacity: 1; } }
+    @keyframes line18 { 0%, 68% { opacity: 0; } 69% { opacity: 1; } }
+    @keyframes line19 { 0%, 70% { opacity: 0; } 71% { opacity: 1; } }
+
+    .l1  { opacity: 0; animation: line1  16s ease forwards; }
+    .l2  { opacity: 0; animation: line2  16s ease forwards; }
+    .l3  { opacity: 0; animation: line3  16s ease forwards; }
+    .l4  { opacity: 0; animation: line4  16s ease forwards; }
+    .l5  { opacity: 0; animation: line5  16s ease forwards; }
+    .l6  { opacity: 0; animation: line6  16s ease forwards; }
+    .l7  { opacity: 0; animation: line7  16s ease forwards; }
+    .l8  { opacity: 0; animation: line8  16s ease forwards; }
+    .l9  { opacity: 0; animation: line9  16s ease forwards; }
+    .l10 { opacity: 0; animation: line10 16s ease forwards; }
+    .l11 { opacity: 0; animation: line11 16s ease forwards; }
+    .l12 { opacity: 0; animation: line12 16s ease forwards; }
+    .l13 { opacity: 0; animation: line13 16s ease forwards; }
+    .l14 { opacity: 0; animation: line14 16s ease forwards; }
+    .l15 { opacity: 0; animation: line15 16s ease forwards; }
+    .l16 { opacity: 0; animation: line16 16s ease forwards; }
+    .l17 { opacity: 0; animation: line17 16s ease forwards; }
+    .l18 { opacity: 0; animation: line18 16s ease forwards; }
+    .l19 { opacity: 0; animation: line19 16s ease forwards; }
+
+    .cursor {
+      animation: blink 1s step-end infinite;
+    }
+
+    text {
+      font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+    }
+
+    .prompt { fill: #7ee787; }
+    .cmd    { fill: #e6edf3; }
+    .output { fill: #e6edf3; }
+    .success{ fill: #3fb950; }
+    .comment{ fill: #6e7681; }
+    .label  { fill: #8b949e; }
+    .blue   { fill: #58a6ff; }
+    .purple { fill: #d2a8ff; }
+    .arrow  { fill: #f0883e; }
+    .dim    { fill: #484f58; }
+    .title  { fill: #8b949e; font-size: 13px; }
+  </style>
+
+  <defs>
+    <clipPath id="terminal-clip">
+      <rect x="1" y="1" width="798" height="498" rx="9"/>
+    </clipPath>
+  </defs>
+
+  <!-- Window frame -->
+  <rect width="800" height="500" rx="10" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Title bar -->
+  <rect width="800" height="36" rx="10" fill="#161b22" clip-path="url(#terminal-clip)"/>
+  <rect y="26" width="800" height="10" fill="#161b22"/>
+  <line x1="0" y1="36" x2="800" y2="36" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Window dots -->
+  <circle cx="20" cy="18" r="6" fill="#f85149"/>
+  <circle cx="40" cy="18" r="6" fill="#d29922"/>
+  <circle cx="60" cy="18" r="6" fill="#3fb950"/>
+
+  <!-- Title text -->
+  <text x="400" y="22" text-anchor="middle" class="title">Terminal -- soloboard</text>
+
+  <!-- Terminal content area -->
+  <g transform="translate(20, 56)">
+
+    <!-- Line 1: $ npm install -g soloboard -->
+    <g class="l1">
+      <text x="0" y="0" class="prompt">$</text>
+      <text x="16" y="0" class="cmd">npm install -g soloboard</text>
+    </g>
+
+    <!-- Line 2: $ cd my-project && soloboard install -->
+    <g class="l2">
+      <text x="0" y="24" class="prompt">$</text>
+      <text x="16" y="24" class="cmd">cd my-project &amp;&amp; soloboard install</text>
+    </g>
+
+    <!-- Line 3: checkmark -->
+    <g class="l3">
+      <text x="0" y="48" class="success">&#10003; SoloBoard installed</text>
+    </g>
+
+    <!-- Line 4: blank + $ claude -->
+    <g class="l4">
+      <text x="0" y="80" class="prompt">$</text>
+      <text x="16" y="80" class="cmd">claude</text>
+    </g>
+
+    <!-- Line 5: you > fix the login bug on mobile -->
+    <g class="l5">
+      <text x="0" y="112" class="blue">you &gt;</text>
+      <text x="48" y="112" class="cmd">fix the login bug on mobile</text>
+    </g>
+
+    <!-- Line 6: comment arrow -->
+    <g class="l6">
+      <text x="430" y="112" class="comment">&#8592; task silently created</text>
+    </g>
+
+    <!-- Line 7: blank line then claude response -->
+    <g class="l7">
+      <text x="0" y="144" class="purple">claude &gt;</text>
+      <text x="72" y="144" class="cmd">Fixed auth.ts:47, the token wasn't</text>
+      <text x="72" y="162" class="cmd">refreshing on mobile...</text>
+    </g>
+
+    <!-- Line 8: comment arrow -->
+    <g class="l8">
+      <text x="430" y="154" class="comment">&#8592; files auto-tracked</text>
+    </g>
+
+    <!-- Line 9: you > /soloboard-board -->
+    <g class="l9">
+      <text x="0" y="196" class="blue">you &gt;</text>
+      <text x="48" y="196" class="cmd">/soloboard-board</text>
+    </g>
+
+    <!-- Board display - all revealed together as a block -->
+    <!-- Board header line -->
+    <g class="l10">
+      <rect x="-4" y="216" width="740" height="1" fill="#30363d"/>
+    </g>
+
+    <!-- Column headers -->
+    <g class="l11">
+      <text x="20" y="236" class="label" font-weight="bold">TODO (1)</text>
+      <text x="220" y="236" class="label" font-weight="bold">DOING (1)</text>
+      <text x="500" y="236" class="label" font-weight="bold">DONE (3)</text>
+    </g>
+
+    <g class="l12">
+      <rect x="-4" y="244" width="740" height="1" fill="#21262d"/>
+    </g>
+
+    <!-- TODO column -->
+    <g class="l13">
+      <text x="20" y="268" class="dim">&#9675;</text>
+      <text x="38" y="268" class="cmd">Add tests</text>
+    </g>
+
+    <!-- DOING column -->
+    <g class="l14">
+      <text x="220" y="268" class="arrow">&#8594;</text>
+      <text x="238" y="268" class="cmd" font-weight="bold">Fix login bug</text>
+    </g>
+
+    <g class="l15">
+      <text x="238" y="288" class="cmd">on mobile</text>
+    </g>
+
+    <g class="l16">
+      <text x="238" y="308" class="comment">auth.ts</text>
+    </g>
+
+    <g class="l17">
+      <text x="238" y="328" class="comment">2m ago</text>
+    </g>
+
+    <!-- DONE column -->
+    <g class="l18">
+      <text x="500" y="268" class="success">&#10003;</text>
+      <text x="518" y="268" class="dim">Setup auth</text>
+      <text x="500" y="288" class="success">&#10003;</text>
+      <text x="518" y="288" class="dim">Add dark mode</text>
+      <text x="500" y="308" class="success">&#10003;</text>
+      <text x="518" y="308" class="dim">Refactor API</text>
+    </g>
+
+    <!-- Bottom border -->
+    <g class="l19">
+      <rect x="-4" y="344" width="740" height="1" fill="#30363d"/>
+    </g>
+
+  </g>
+</svg>

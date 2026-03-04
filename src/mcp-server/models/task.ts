@@ -130,6 +130,6 @@ export function createTask(
     deploymentId: null,
     createdAt: now,
     updatedAt: now,
-    completedAt: null,
+    completedAt: status === "done" ? now : null,
   };
 }

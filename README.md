@@ -40,6 +40,10 @@ you > /soloboard-board
                    abc1234              ✓ Refactor API
 ```
 
+<p align="center">
+  <img src="demo.svg" width="800" alt="SoloBoard Demo">
+</p>
+
 ## Install
 
 ### Option A: npm global (recommended)
@@ -56,6 +60,10 @@ bash install.sh /path/to/your/project
 ```
 
 Then just `cd your-project && claude` — the board manages itself.
+
+## Getting Started
+
+See the [Getting Started Guide](docs/getting-started.md) for a complete walkthrough — installation, first use, common workflows, and troubleshooting.
 
 ## How it works
 
