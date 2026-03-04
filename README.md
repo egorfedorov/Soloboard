@@ -32,7 +32,7 @@ claude > Found the issue in auth.ts:47...
 you > commit this
                                     ← commit SHA auto-linked to task
 
-you > /soloboard:board
+you > /soloboard-board
 
   TODO (1)       DOING (1)              DONE (3)
                  → Fix login bug        ✓ Setup auth
@@ -66,16 +66,16 @@ Then just `cd your-project && claude` — the board manages itself.
 | `"add dark mode"` | Moves previous task → TODO, creates new → DOING |
 | Edit files | Auto-tracks changed files to active task |
 | `git commit` | Auto-links commit SHA to active task |
-| `/soloboard:board` | Shows the kanban board |
-| `/soloboard:task done` | Moves active task → DONE |
+| `/soloboard-board` | Shows the kanban board |
+| `/soloboard-task done` | Moves active task → DONE |
 
 ## Commands
 
 | Command | What it does |
 |---------|-------------|
-| `/soloboard:board` | View your kanban board |
-| `/soloboard:task` | Show active task / `done` / `create <title>` / `delete <name>` |
-| `/soloboard:project` | Show project / `create <name>` / `list` / `switch <name>` |
+| `/soloboard-board` | View your kanban board |
+| `/soloboard-task` | Show active task / `done` / `create <title>` / `delete <name>` |
+| `/soloboard-project` | Show project / `create <name>` / `list` / `switch <name>` |
 
 ## Features
 
