@@ -577,6 +577,76 @@
     font-size: 0.9rem !important;
   }
 
+  /* ═══ ROADMAP ═══ */
+  .roadmap-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .roadmap-phase {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    transition: all 0.3s;
+  }
+  .roadmap-phase:hover {
+    border-color: var(--accent);
+    box-shadow: 0 5px 30px rgba(124, 106, 239, 0.08);
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .phase-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .phase-badge.live { background: rgba(52,211,153,0.15); color: var(--green); }
+  .phase-badge.next { background: rgba(124,106,239,0.15); color: var(--accent2); }
+  .phase-badge.future { background: rgba(96,165,250,0.15); color: var(--blue); }
+  .phase-badge.dream { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .phase-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .phase-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .roadmap-item {
+    font-size: 0.9rem;
+    color: var(--text2);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .roadmap-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+  }
+  .roadmap-item.done { color: var(--text); }
+  .roadmap-item.done::before {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
   /* ═══ FOOTER ═══ */
   footer {
     padding: 4rem 2rem;
@@ -616,6 +686,7 @@
     <a href="#board">Board</a>
     <a href="#install">Install</a>
     <a href="#tools">Tools</a>
+    <a href="#roadmap">Roadmap</a>
     <a href="https://github.com/egorfedorov/Soloboard" target="_blank">GitHub</a>
   </div>
 </nav>
@@ -1002,6 +1073,76 @@ config.json → active project</pre>
       <span class="feature-icon" style="font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--accent2)">/soloboard:project</span>
       <h3>Manage projects</h3>
       <p>Create projects, list all boards, or switch between projects.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-label">Roadmap</div>
+  <h2>What's <span class="highlight">coming next</span></h2>
+  <p class="section-sub">
+    SoloBoard is just getting started. Here's what we're building.
+  </p>
+
+  <div class="roadmap-timeline">
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge live">v1.1 — Now</span>
+        <span class="phase-title">Foundation</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item done">20 MCP tools</div>
+        <div class="roadmap-item done">Auto-tracking from prompts</div>
+        <div class="roadmap-item done">Git commit linking</div>
+        <div class="roadmap-item done">Time tracking</div>
+        <div class="roadmap-item done">Priority sorting</div>
+        <div class="roadmap-item done">Markdown export</div>
+        <div class="roadmap-item done">Multi-project dashboard</div>
+        <div class="roadmap-item done">Global CLI</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge next">v1.2 — Next</span>
+        <span class="phase-title">Intelligence</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">Smart task splitting — "build auth system" auto-breaks into subtasks</div>
+        <div class="roadmap-item">Blocked/dependency tracking — task A blocks task B</div>
+        <div class="roadmap-item">Sprint mode — group tasks into time-boxed sprints</div>
+        <div class="roadmap-item">Daily standup summary — what you did yesterday, plan for today</div>
+        <div class="roadmap-item">Pomodoro integration — focus timer tied to active task</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge future">v1.3 — Future</span>
+        <span class="phase-title">Collaboration</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">GitHub Issues sync — two-way sync tasks with GitHub issues</div>
+        <div class="roadmap-item">PR auto-creation — task → branch → PR in one flow</div>
+        <div class="roadmap-item">Board sharing — export as interactive HTML page</div>
+        <div class="roadmap-item">Velocity tracking — tasks/week, avg time per task, burn-down</div>
+        <div class="roadmap-item">Multi-repo projects — one board across multiple git repos</div>
+      </div>
+    </div>
+
+    <div class="roadmap-phase">
+      <div class="phase-header">
+        <span class="phase-badge dream">v2.0 — Vision</span>
+        <span class="phase-title">AI-native PM</span>
+      </div>
+      <div class="phase-items">
+        <div class="roadmap-item">Predictive estimates — AI learns your pace and predicts task durations</div>
+        <div class="roadmap-item">Context handoff — seamless task transfer between Claude sessions</div>
+        <div class="roadmap-item">Code-aware priorities — auto-prioritize based on git blame hotspots</div>
+        <div class="roadmap-item">Team mode — multiple Claude agents on one board</div>
+        <div class="roadmap-item">VSCode extension — see your board in the sidebar</div>
+      </div>
     </div>
   </div>
 </section>
