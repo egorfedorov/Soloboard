@@ -879,6 +879,26 @@
       <h3>Global CLI</h3>
       <p><code>npm install -g soloboard</code> then <code>soloboard install</code> in any project. Done.</p>
     </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#129504;</span>
+      <h3>Smart task creation</h3>
+      <p>Analyzes your project to find related files, auto-tags tasks, sets priority from keywords and git hotspots.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128257;</span>
+      <h3>Task context</h3>
+      <p>Saves what you looked at, decisions made, and remaining work. Resume any task with full context intact.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#129302;</span>
+      <h3>Task agents</h3>
+      <p>Auto-generates .claude/agents/ files for tasks. Launch in any session with full context preloaded.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128269;</span>
+      <h3>Auto-review</h3>
+      <p>Pre-close analysis: checks for TODOs, verifies tests exist, counts changes, and flags issues.</p>
+    </div>
   </div>
 </section>
 
@@ -1008,7 +1028,7 @@
       <h3>.mcp.json</h3>
       <pre>Adds SoloBoard MCP server
 so Claude Code can call
-the 20 board tools.</pre>
+the 27 board tools.</pre>
     </div>
     <div class="arch-card">
       <h3>CLAUDE.md</h3>
@@ -1036,7 +1056,7 @@ config.json → active project</pre>
 <!-- TOOLS -->
 <section id="tools">
   <div class="section-label">MCP tools</div>
-  <h2><span class="highlight">20</span> tools, zero noise</h2>
+  <h2><span class="highlight">27</span> tools, zero noise</h2>
   <p class="section-sub">
     All tools are called by Claude automatically. You never need to call them yourself.
   </p>
@@ -1053,7 +1073,8 @@ config.json → active project</pre>
       <tr><td>auto_init</td><td>Creates .kanban, project, and session in one call. Idempotent.</td></tr>
       <tr><td>board_summary</td><td>One-line status: "TODO: 3 | DOING: 1 | DONE: 5"</td></tr>
 
-      <tr><td class="tools-group" colspan="2">Tasks</td></tr>
+      <tr><td class="tools-group" colspan="2">Smart Tasks</td></tr>
+      <tr><td>task_smart_create</td><td>Smart creation: auto-analyzes project, finds related files, sets priority & tags</td></tr>
       <tr><td>task_create</td><td>Create task with title, priority, tags, and initial status</td></tr>
       <tr><td>task_update</td><td>Update any task field (description, priority, tags, branch, PR)</td></tr>
       <tr><td>task_get</td><td>Get full task details by ID or fuzzy name match</td></tr>
@@ -1062,6 +1083,14 @@ config.json → active project</pre>
       <tr><td>task_delete</td><td>Archive or permanently delete a task</td></tr>
       <tr><td>task_prioritize</td><td>Change priority + auto-sort column (high floats to top)</td></tr>
       <tr><td>task_time</td><td>Time tracking report — per task or all tasks</td></tr>
+      <tr><td>task_analyze</td><td>Deep analysis: related files, git history, tests, suggested approach</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Context & Agents</td></tr>
+      <tr><td>task_context_save</td><td>Save context snapshot: files viewed, decisions, remaining work</td></tr>
+      <tr><td>task_context_load</td><td>Load context when resuming a task — full continuity</td></tr>
+      <tr><td>task_agent_create</td><td>Generate .claude/agents/ file for a task with full context</td></tr>
+      <tr><td>task_agent_delete</td><td>Clean up agent file when task is done</td></tr>
+      <tr><td>task_review</td><td>Pre-close analysis: TODOs, tests, changes, type check</td></tr>
 
       <tr><td class="tools-group" colspan="2">Board & Export</td></tr>
       <tr><td>board_view</td><td>Full kanban board sorted by priority, with time tracking</td></tr>

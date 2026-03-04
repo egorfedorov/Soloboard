@@ -9,11 +9,15 @@ import { registerSessionTools } from "./tools/session-tools.js";
 import { registerGitTools } from "./tools/git-tools.js";
 import { registerInitTools } from "./tools/init-tools.js";
 import { registerExportTools } from "./tools/export-tools.js";
+import { registerContextTools } from "./tools/context-tools.js";
+import { registerSmartTools } from "./tools/smart-tools.js";
+import { registerAgentTools } from "./tools/agent-tools.js";
+import { registerReviewTools } from "./tools/review-tools.js";
 
 export function createSoloboardServer(projectRoot: string): McpServer {
   const server = new McpServer({
     name: "soloboard",
-    version: "1.1.0",
+    version: "1.2.0",
   });
 
   const store = new Store(projectRoot);
@@ -27,6 +31,10 @@ export function createSoloboardServer(projectRoot: string): McpServer {
   registerGitTools(server, store, taskStore, boardStore, projectRoot);
   registerInitTools(server, store, boardStore, sessionStore, projectRoot);
   registerExportTools(server, store, taskStore, boardStore);
+  registerContextTools(server, store, taskStore);
+  registerSmartTools(server, store, taskStore, boardStore, sessionStore, projectRoot);
+  registerAgentTools(server, store, taskStore, projectRoot);
+  registerReviewTools(server, store, taskStore, boardStore, projectRoot);
 
   return server;
 }

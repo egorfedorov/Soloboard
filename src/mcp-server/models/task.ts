@@ -6,6 +6,16 @@ export interface TimeEntry {
   end: string | null;
 }
 
+export interface TaskContext {
+  filesViewed: string[];
+  decisions: string[];
+  remainingWork: string[];
+  lastAction: string;
+  suggestedApproach: string[];
+  relatedFiles: string[];
+  savedAt: string;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -20,6 +30,8 @@ export interface Task {
   files: string[];
   timeLog: TimeEntry[];
   totalSeconds: number;
+  context: TaskContext | null;
+  agentFile: string | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -62,6 +74,8 @@ export function createTask(
     files: [],
     timeLog: status === "doing" ? [{ start: now, end: null }] : [],
     totalSeconds: 0,
+    context: null,
+    agentFile: null,
     createdAt: now,
     updatedAt: now,
     completedAt: null,
