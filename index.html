@@ -139,7 +139,20 @@
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     color: var(--text2);
     max-width: 600px;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+  }
+  .npm-install-line {
+    margin-bottom: 1.5rem;
+  }
+  .npm-install-line code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    color: var(--green);
+    user-select: all;
   }
   .hero-actions {
     display: flex;
@@ -696,7 +709,7 @@
   <img src="logo.svg" alt="SoloBoard" class="hero-logo">
   <div class="badge">
     <span class="badge-dot"></span>
-    Claude Code Plugin &middot; MCP Server
+    Claude Code Plugin &middot; MCP Server &middot; <a href="https://www.npmjs.com/package/soloboard" target="_blank" style="color:var(--green);text-decoration:none">npm</a>
   </div>
   <h1>
     You code.<br>
@@ -705,8 +718,11 @@
   <p class="hero-sub">
     Invisible personal kanban for Claude Code. No setup commands, no context switching. Just work — SoloBoard silently tracks tasks, links commits, and stays out of your way.
   </p>
+  <div class="npm-install-line">
+    <code>npm install -g soloboard</code>
+  </div>
   <div class="hero-actions">
-    <a href="#install" class="btn btn-primary">Install in 10 seconds</a>
+    <a href="https://www.npmjs.com/package/soloboard" class="btn btn-primary" target="_blank">View on npm</a>
     <a href="#how" class="btn btn-secondary">See how it works</a>
   </div>
 </div>
