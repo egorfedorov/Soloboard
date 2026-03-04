@@ -1,6 +1,6 @@
 {
   "name": "soloboard",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Invisible personal task tracker plugin for Claude Code",
   "type": "module",
   "main": "dist/mcp-server/index.js",
