@@ -135,36 +135,48 @@ SETEOF
   echo "   ✅ Created .claude/settings.json with hooks"
 fi
 
-# 4. Create CLAUDE.md with agent instructions (append if exists)
+# 4. Copy slash commands to .claude/commands/
+COMMANDS_DIR="$CLAUDE_DIR/commands"
+mkdir -p "$COMMANDS_DIR"
+cp "$SOLOBOARD_DIR/commands/board.md" "$COMMANDS_DIR/soloboard-board.md"
+cp "$SOLOBOARD_DIR/commands/task.md" "$COMMANDS_DIR/soloboard-task.md"
+cp "$SOLOBOARD_DIR/commands/project.md" "$COMMANDS_DIR/soloboard-project.md"
+echo "   ✅ Installed slash commands (/soloboard-board, /soloboard-task, /soloboard-project)"
+
+# 5. Create CLAUDE.md with agent instructions
 CLAUDE_MD="$TARGET_DIR/CLAUDE.md"
 SOLOBOARD_BLOCK='<!-- SOLOBOARD:START -->
-## SoloBoard — Personal Task Tracker
+## SoloBoard — Intelligent Task Tracker
 
-You have access to a personal kanban board via MCP tools. Follow these rules:
+You have access to a personal kanban board via MCP tools (27 tools). Follow these rules:
 
 ### Auto-tracking (SILENT — never mention to user unless asked):
-1. When user gives an actionable task ("fix bug", "add feature", "refactor X"):
+1. At session start: call `auto_init` silently (idempotent)
+2. When user gives an actionable task ("fix bug", "add feature", "refactor X"):
    - Check `task_list` for duplicates
-   - If a task is already "doing", move it to "todo" first
-   - Create new task with `task_create` (status: "doing")
-   - If no project exists, call `project_create` with the directory name first
-2. When user asks a question or reviews code — do nothing
-3. Never mention tracking in your responses
+   - If a task is already "doing", save context with `task_context_save`, then move to "todo"
+   - Create new task with `task_smart_create` (auto-analyzes project, sets tags & priority)
+3. When resuming a task: call `task_context_load` to restore full context
+4. Before closing a task: call `task_review` for pre-close analysis
+5. When user asks a question or reviews code — do nothing
+6. Never mention tracking in your responses
 
 ### Slash commands (respond when user asks):
-- `/soloboard:board` — call `board_view`, show the board
-- `/soloboard:task` — show active task / manage tasks
-- `/soloboard:task done` — move active task to done
-- `/soloboard:project` — show/manage projects
+- `/soloboard-board` — call `board_view`, show the board
+- `/soloboard-task` — show active task / manage tasks
+- `/soloboard-task done` — move active task to done
+- `/soloboard-project` — show/manage projects
 
-### Git integration:
-- After git commits, commits are auto-linked to the active task via hooks
-- File changes are auto-tracked via hooks
-
-### Available MCP tools:
-`task_create`, `task_update`, `task_get`, `task_list`, `task_move`, `task_delete`
-`board_view`, `project_create`, `project_list`, `project_switch`
-`session_log`, `session_summary`, `git_link`, `git_status`
+### Key MCP tools:
+**Smart**: `task_smart_create`, `task_analyze`
+**Context**: `task_context_save`, `task_context_load`
+**Agents**: `task_agent_create`, `task_agent_delete`
+**Review**: `task_review`
+**Core**: `task_create`, `task_update`, `task_get`, `task_list`, `task_move`, `task_delete`
+**Board**: `board_view`, `board_export`, `dashboard`, `project_create`, `project_list`, `project_switch`
+**Git**: `git_link`, `git_status`, `session_log`, `session_summary`
+**Init**: `auto_init`, `board_summary`
+**Extra**: `task_prioritize`, `task_time`
 <!-- SOLOBOARD:END -->'
 
 if [ -f "$CLAUDE_MD" ]; then
@@ -191,7 +203,7 @@ else
   echo "   ✅ Created CLAUDE.md with SoloBoard instructions"
 fi
 
-# 5. Initialize .kanban directory
+# 6. Initialize .kanban directory
 mkdir -p "$TARGET_DIR/.kanban/"{boards,tasks,archive,sessions}
 
 if [ ! -f "$TARGET_DIR/.kanban/config.json" ]; then
@@ -208,7 +220,7 @@ CFGEOF
   echo "   ✅ Initialized .kanban/ directory"
 fi
 
-# 6. Add .kanban/sessions to .gitignore
+# 7. Add .kanban/sessions to .gitignore
 GITIGNORE="$TARGET_DIR/.gitignore"
 if [ -f "$GITIGNORE" ]; then
   if ! grep -q ".kanban/sessions" "$GITIGNORE"; then
@@ -227,11 +239,15 @@ fi
 
 echo ""
 echo "══════════════════════════════════════════════"
-echo "  ✅ SoloBoard installed!"
+echo "  ✅ SoloBoard v1.2.0 installed!"
 echo ""
 echo "  Start Claude Code in this project:"
 echo "    cd $TARGET_DIR && claude"
 echo ""
 echo "  The board tracks your work automatically."
-echo "  Type /soloboard:board to see your board."
+echo ""
+echo "  Commands:"
+echo "    /soloboard-board    — view your board"
+echo "    /soloboard-task     — manage tasks"
+echo "    /soloboard-project  — manage projects"
 echo "══════════════════════════════════════════════"
