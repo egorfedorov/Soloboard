@@ -148,7 +148,7 @@ CLAUDE_MD="$TARGET_DIR/CLAUDE.md"
 SOLOBOARD_BLOCK='<!-- SOLOBOARD:START -->
 ## SoloBoard — Intelligent Task Tracker
 
-You have access to a personal kanban board via MCP tools (27 tools). Follow these rules:
+You have access to a personal kanban board via MCP tools (44 tools). Follow these rules:
 
 ### Auto-tracking (SILENT — never mention to user unless asked):
 1. At session start: call `auto_init` silently (idempotent)
@@ -156,10 +156,11 @@ You have access to a personal kanban board via MCP tools (27 tools). Follow thes
    - Check `task_list` for duplicates
    - If a task is already "doing", save context with `task_context_save`, then move to "todo"
    - Create new task with `task_smart_create` (auto-analyzes project, sets tags & priority)
-3. When resuming a task: call `task_context_load` to restore full context
-4. Before closing a task: call `task_review` for pre-close analysis
-5. When user asks a question or reviews code — do nothing
-6. Never mention tracking in your responses
+3. For complex tasks: use `task_split` to break into subtasks, `task_depend` for dependencies
+4. When resuming a task: call `task_context_load` to restore full context
+5. Before closing a task: call `task_review` for pre-close analysis
+6. When user asks a question or reviews code — do nothing
+7. Never mention tracking in your responses
 
 ### Slash commands (respond when user asks):
 - `/soloboard-board` — call `board_view`, show the board
@@ -173,6 +174,11 @@ You have access to a personal kanban board via MCP tools (27 tools). Follow thes
 **Agents**: `task_agent_create`, `task_agent_delete`
 **Review**: `task_review`
 **Core**: `task_create`, `task_update`, `task_get`, `task_list`, `task_move`, `task_delete`
+**Deps**: `task_depend`, `task_blockers`, `critical_path`
+**Subtasks**: `task_split`, `task_subtasks`
+**Sprints**: `sprint_create`, `sprint_add`, `sprint_close`, `sprint_view`
+**Focus**: `standup`, `pomodoro_start`, `pomodoro_status`
+**Manager**: `manager_report`, `stall_detect`, `suggest_next`, `auto_reprioritize`, `gantt_view`
 **Board**: `board_view`, `board_export`, `dashboard`, `project_create`, `project_list`, `project_switch`
 **Git**: `git_link`, `git_status`, `session_log`, `session_summary`
 **Init**: `auto_init`, `board_summary`
@@ -204,7 +210,7 @@ else
 fi
 
 # 6. Initialize .kanban directory
-mkdir -p "$TARGET_DIR/.kanban/"{boards,tasks,archive,sessions}
+mkdir -p "$TARGET_DIR/.kanban/"{boards,tasks,archive,sessions,sprints}
 
 if [ ! -f "$TARGET_DIR/.kanban/config.json" ]; then
   PROJECT_NAME=$(basename "$TARGET_DIR")
@@ -239,7 +245,7 @@ fi
 
 echo ""
 echo "══════════════════════════════════════════════"
-echo "  ✅ SoloBoard v1.2.0 installed!"
+echo "  ✅ SoloBoard v1.4.0 installed!"
 echo ""
 echo "  Start Claude Code in this project:"
 echo "    cd $TARGET_DIR && claude"

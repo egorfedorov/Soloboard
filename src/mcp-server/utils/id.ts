@@ -16,3 +16,7 @@ export function generateBoardId(): string {
 export function generateSessionId(): string {
   return generateId("s");
 }
+
+export function generateSprintId(): string {
+  return generateId("sp");
+}

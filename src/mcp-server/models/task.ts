@@ -32,6 +32,15 @@ export interface Task {
   totalSeconds: number;
   context: TaskContext | null;
   agentFile: string | null;
+  // v1.3: Subtasks
+  parentId: string | null;
+  subtaskIds: string[];
+  // v1.3: Dependencies
+  blockedBy: string[];
+  blocks: string[];
+  // v1.3: Sprints
+  sprintId: string | null;
+  estimatedMinutes: number | null;
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;
@@ -76,6 +85,12 @@ export function createTask(
     totalSeconds: 0,
     context: null,
     agentFile: null,
+    parentId: null,
+    subtaskIds: [],
+    blockedBy: [],
+    blocks: [],
+    sprintId: null,
+    estimatedMinutes: null,
     createdAt: now,
     updatedAt: now,
     completedAt: null,

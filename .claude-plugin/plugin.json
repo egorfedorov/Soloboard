@@ -1,6 +1,6 @@
 {
   "name": "soloboard",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "Personal task tracker — invisible kanban that tracks your work automatically",
   "author": "SoloBoard",
   "commands": [

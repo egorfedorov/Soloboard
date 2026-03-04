@@ -12,7 +12,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-plugin-7c6aef?style=flat-square" alt="Claude Code Plugin">
   <img src="https://img.shields.io/badge/MCP-server-a78bfa?style=flat-square" alt="MCP Server">
-  <img src="https://img.shields.io/badge/tools-27-34d399?style=flat-square" alt="27 Tools">
+  <img src="https://img.shields.io/badge/tools-44-34d399?style=flat-square" alt="44 Tools">
   <img src="https://img.shields.io/badge/license-MIT-60a5fa?style=flat-square" alt="MIT">
 </p>
 
@@ -85,6 +85,15 @@ Then just `cd your-project && claude` — the board manages itself.
 - **Task context** — saves what you examined, decisions made, remaining work per task
 - **Task agents** — auto-generates `.claude/agents/` files for complex tasks
 - **Auto-review** — pre-close analysis checks for TODOs, tests, type errors before marking done
+- **Task splitting** — break complex tasks into subtasks with progress tracking
+- **Dependencies** — blocked-by relationships with circular dependency detection
+- **Critical path** — find the bottleneck chain that determines project duration
+- **Sprints** — time-boxed task grouping with burndown tracking
+- **Daily standup** — automated standup summary: done, in-progress, blocked
+- **Pomodoro timer** — focus sessions tied to tasks
+- **Auto-manager** — project health score, stall detection, smart suggestions
+- **Gantt chart** — text-based timeline view with dependency visualization
+- **Auto-reprioritize** — smart priority adjustment based on blockers and progress
 - **Git integration** — commits, branches, and PRs auto-linked to tasks
 - **Fuzzy search** — say "move login bug to done" and it finds the right task
 - **File-per-task storage** — each task is a JSON file in `.kanban/tasks/`, git-friendly
@@ -102,7 +111,7 @@ Then just `cd your-project && claude` — the board manages itself.
 soloboard/
 ├── src/mcp-server/
 │   ├── index.ts              # Entry point (stdio transport)
-│   ├── server.ts             # MCP server + 27 tools
+│   ├── server.ts             # MCP server + 44 tools
 │   ├── tools/
 │   │   ├── task-tools.ts     # create/update/get/list/move/delete
 │   │   ├── board-tools.ts    # view/project-create/list/switch
@@ -113,9 +122,14 @@ soloboard/
 │   │   ├── smart-tools.ts    # smart_create/analyze (project analysis)
 │   │   ├── context-tools.ts  # context_save/load (task continuity)
 │   │   ├── agent-tools.ts    # agent_create/delete (.claude/agents/)
-│   │   └── review-tools.ts   # pre-close review & checklist
+│   │   ├── review-tools.ts   # pre-close review & checklist
+│   │   ├── dependency-tools.ts # depend/blockers/critical_path
+│   │   ├── subtask-tools.ts  # split/subtasks
+│   │   ├── sprint-tools.ts   # create/add/close/view
+│   │   ├── standup-tools.ts  # standup/pomodoro
+│   │   └── manager-tools.ts  # report/stall/suggest/reprioritize/gantt
 │   ├── storage/              # Atomic writes, file-per-task
-│   ├── models/               # Task, Board, Session, Config
+│   ├── models/               # Task, Board, Session, Sprint, Config
 │   └── utils/                # nanoid, git helpers, project analyzer
 ├── scripts/                  # Hook scripts (session, files, commits)
 ├── commands/                 # Slash command definitions
@@ -130,11 +144,12 @@ soloboard/
 ├── config.json               # Active project + session
 ├── boards/{id}.json          # Board columns (task IDs)
 ├── tasks/{id}.json           # One file per task (with context)
+├── sprints/{id}.json         # Sprint definitions
 ├── archive/{id}.json         # Completed old tasks
 └── sessions/{id}.json        # Session logs (gitignored)
 ```
 
-## MCP Tools (27)
+## MCP Tools (44)
 
 | Tool | Purpose |
 |------|---------|
@@ -158,6 +173,28 @@ soloboard/
 | `task_agent_create` | Generate `.claude/agents/` file for a task |
 | `task_agent_delete` | Clean up agent file when done |
 | `task_review` | Pre-close: TODOs, tests, changes, type check |
+| **Dependencies** | |
+| `task_depend` | Add/remove dependency between tasks |
+| `task_blockers` | Show dependency graph for task or all |
+| `critical_path` | Find the longest dependency chain (bottleneck) |
+| **Subtasks** | |
+| `task_split` | Break task into subtasks |
+| `task_subtasks` | View subtask progress |
+| **Sprints** | |
+| `sprint_create` | Create a time-boxed sprint |
+| `sprint_add` | Add tasks to a sprint |
+| `sprint_close` | Close sprint, optionally carry over incomplete |
+| `sprint_view` | Sprint progress with burndown |
+| **Standup & Focus** | |
+| `standup` | Daily standup: done, in-progress, blocked |
+| `pomodoro_start` | Start a focus session on a task |
+| `pomodoro_status` | Check pomodoro timer |
+| **Auto-Manager** | |
+| `manager_report` | Health score, velocity, stalls, suggestions |
+| `stall_detect` | Find tasks with no recent activity |
+| `suggest_next` | AI-powered "what to work on next" |
+| `auto_reprioritize` | Smart priority adjustment (dry run or apply) |
+| `gantt_view` | Text-based Gantt chart with dependencies |
 | **Board & Export** | |
 | `board_view` | Full kanban board (sorted by priority) |
 | `board_export` | Export board as markdown |

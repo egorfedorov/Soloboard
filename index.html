@@ -899,6 +899,46 @@
       <h3>Auto-review</h3>
       <p>Pre-close analysis: checks for TODOs, verifies tests exist, counts changes, and flags issues.</p>
     </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128279;</span>
+      <h3>Dependencies</h3>
+      <p>Set blocked-by relationships between tasks with automatic circular dependency detection.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#9986;</span>
+      <h3>Task splitting</h3>
+      <p>Break complex tasks into subtasks. Track progress with completion percentages.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#127939;</span>
+      <h3>Sprints</h3>
+      <p>Time-boxed sprints with burndown tracking. Carry over incomplete tasks automatically.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#9749;</span>
+      <h3>Daily standup</h3>
+      <p>Auto-generated summary: what was done, what's in progress, what's blocked, velocity stats.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#127813;</span>
+      <h3>Pomodoro timer</h3>
+      <p>Focus sessions tied to tasks. Start a 25-min timer, track progress, stay in flow.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128161;</span>
+      <h3>Critical path</h3>
+      <p>Find the longest dependency chain — the bottleneck determining your project's minimum time.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#128202;</span>
+      <h3>Gantt chart</h3>
+      <p>Text-based timeline view showing task scheduling, parallelism, and dependencies.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">&#129302;</span>
+      <h3>Auto-manager</h3>
+      <p>Project health score, stall detection, smart suggestions, and automatic reprioritization.</p>
+    </div>
   </div>
 </section>
 
@@ -1028,13 +1068,13 @@
       <h3>.mcp.json</h3>
       <pre>Adds SoloBoard MCP server
 so Claude Code can call
-the 27 board tools.</pre>
+the 44 board tools.
     </div>
     <div class="arch-card">
       <h3>CLAUDE.md</h3>
       <pre>Injects agent instructions:
 auto-track tasks, stay silent,
-respond to /soloboard:*</pre>
+respond to /soloboard-*</pre>
     </div>
     <div class="arch-card">
       <h3>.claude/settings.json</h3>
@@ -1047,6 +1087,7 @@ respond to /soloboard:*</pre>
       <h3>.kanban/</h3>
       <pre>boards/   → project boards
 tasks/    → one file per task
+sprints/  → sprint definitions
 sessions/ → ephemeral logs
 config.json → active project</pre>
     </div>
@@ -1056,7 +1097,7 @@ config.json → active project</pre>
 <!-- TOOLS -->
 <section id="tools">
   <div class="section-label">MCP tools</div>
-  <h2><span class="highlight">27</span> tools, zero noise</h2>
+  <h2><span class="highlight">44</span> tools, zero noise</h2>
   <p class="section-sub">
     All tools are called by Claude automatically. You never need to call them yourself.
   </p>
@@ -1091,6 +1132,31 @@ config.json → active project</pre>
       <tr><td>task_agent_create</td><td>Generate .claude/agents/ file for a task with full context</td></tr>
       <tr><td>task_agent_delete</td><td>Clean up agent file when task is done</td></tr>
       <tr><td>task_review</td><td>Pre-close analysis: TODOs, tests, changes, type check</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Dependencies</td></tr>
+      <tr><td>task_depend</td><td>Add/remove dependency between tasks (with cycle detection)</td></tr>
+      <tr><td>task_blockers</td><td>Show dependency graph — what blocks what</td></tr>
+      <tr><td>critical_path</td><td>Find the longest dependency chain (project bottleneck)</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Subtasks</td></tr>
+      <tr><td>task_split</td><td>Break a task into subtasks with progress tracking</td></tr>
+      <tr><td>task_subtasks</td><td>View subtask progress with completion percentage</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Sprints & Focus</td></tr>
+      <tr><td>sprint_create</td><td>Create a time-boxed sprint (planning or active)</td></tr>
+      <tr><td>sprint_add</td><td>Add tasks to a sprint</td></tr>
+      <tr><td>sprint_close</td><td>Close sprint, optionally carry over incomplete tasks</td></tr>
+      <tr><td>sprint_view</td><td>Sprint progress with burndown bar</td></tr>
+      <tr><td>standup</td><td>Daily standup: done, in-progress, blocked, up next</td></tr>
+      <tr><td>pomodoro_start</td><td>Start a focus session tied to a task</td></tr>
+      <tr><td>pomodoro_status</td><td>Check pomodoro timer with progress bar</td></tr>
+
+      <tr><td class="tools-group" colspan="2">Auto-Manager</td></tr>
+      <tr><td>manager_report</td><td>Project health score, velocity, stalls, recommendations</td></tr>
+      <tr><td>stall_detect</td><td>Find tasks with no recent activity</td></tr>
+      <tr><td>suggest_next</td><td>AI-powered "what to work on next" with scoring</td></tr>
+      <tr><td>auto_reprioritize</td><td>Smart priority adjustment based on blockers & progress</td></tr>
+      <tr><td>gantt_view</td><td>Text-based Gantt chart with dependency visualization</td></tr>
 
       <tr><td class="tools-group" colspan="2">Board & Export</td></tr>
       <tr><td>board_view</td><td>Full kanban board sorted by priority, with time tracking</td></tr>

@@ -14,7 +14,7 @@ export class Store {
   }
 
   async init(): Promise<void> {
-    const dirs = ["boards", "tasks", "archive", "sessions"];
+    const dirs = ["boards", "tasks", "archive", "sessions", "sprints"];
     for (const dir of dirs) {
       await fs.promises.mkdir(path.join(this.baseDir, dir), { recursive: true });
     }
@@ -98,5 +98,13 @@ export class Store {
 
   get sessionsDir(): string {
     return path.join(this.baseDir, "sessions");
+  }
+
+  sprintPath(sprintId: string): string {
+    return path.join(this.baseDir, "sprints", `${sprintId}.json`);
+  }
+
+  get sprintsDir(): string {
+    return path.join(this.baseDir, "sprints");
   }
 }
