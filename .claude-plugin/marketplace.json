@@ -1,0 +1,28 @@
+{
+  "name": "soloboard",
+  "owner": {
+    "name": "Egor Fedorov",
+    "email": "egorfedorov@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Invisible personal kanban for Claude Code — zero friction task tracking",
+    "version": "1.1.0"
+  },
+  "plugins": [
+    {
+      "name": "soloboard",
+      "source": "./",
+      "description": "Invisible personal kanban that silently tracks tasks, links git commits, and stays out of your way",
+      "version": "1.1.0",
+      "author": {
+        "name": "Egor Fedorov"
+      },
+      "homepage": "https://egorfedorov.github.io/Soloboard",
+      "repository": "https://github.com/egorfedorov/Soloboard",
+      "license": "MIT",
+      "keywords": ["kanban", "task-tracker", "productivity", "git", "mcp"],
+      "category": "productivity",
+      "tags": ["kanban", "tasks", "tracking", "git-integration", "time-tracking"]
+    }
+  ]
+}

@@ -709,7 +709,7 @@
   <img src="logo.svg" alt="SoloBoard" class="hero-logo">
   <div class="badge">
     <span class="badge-dot"></span>
-    Claude Code Plugin &middot; MCP Server &middot; <a href="https://www.npmjs.com/package/soloboard" target="_blank" style="color:var(--green);text-decoration:none">npm</a>
+    <a href="https://claudemarketplaces.com" target="_blank" style="color:var(--accent2);text-decoration:none">Claude Code Plugin</a> &middot; MCP Server &middot; <a href="https://www.npmjs.com/package/soloboard" target="_blank" style="color:var(--green);text-decoration:none">npm</a>
   </div>
   <h1>
     You code.<br>
@@ -971,7 +971,21 @@
     </div>
 
     <div class="install-step">
-      <h3><span class="step-num">B</span> Clone & build</h3>
+      <h3><span class="step-num">B</span> Claude Code Marketplace</h3>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        /plugin marketplace add egorfedorov/Soloboard<br>
+        /plugin install soloboard@soloboard<br>
+        <span class="comment"># Done. Works in any project.</span>
+      </div>
+    </div>
+
+    <div class="install-step" style="text-align:center;padding:0.5rem 0">
+      <span style="color:var(--text2);font-size:0.9rem">— or —</span>
+    </div>
+
+    <div class="install-step">
+      <h3><span class="step-num">C</span> Clone & build</h3>
       <div class="code-block">
         <button class="copy-btn" onclick="copyCode(this)">copy</button>
         git clone https://github.com/egorfedorov/Soloboard.git<br>
