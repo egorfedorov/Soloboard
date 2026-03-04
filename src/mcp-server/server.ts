@@ -54,7 +54,7 @@ import { registerTeamTools } from "./tools/team-tools.js";
 export function createSoloboardServer(projectRoot: string): McpServer {
   const server = new McpServer({
     name: "soloboard",
-    version: "3.0.0",
+    version: "3.0.1",
   });
 
   // Core stores
